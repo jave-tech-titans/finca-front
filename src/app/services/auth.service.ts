@@ -19,7 +19,7 @@ export class AuthService {
 
 
   constructor(url: string, storageService : StorageService) {
-    this.baseUrl = url
+    this.baseUrl = `${url}/auth`
     this.storageService = storageService
     storageService.retrieve('refreshToken').then((value)=>{
       this.refreshToken = value
@@ -28,14 +28,14 @@ export class AuthService {
 
   async registerAccount(account : AccountModel): Promise<[string | null, string | null]>{
     const response = await handleApiCall<string>(async()=>{
-      return await axios.post(`${this.baseUrl}/api/v1/auth/accounts`, account)
+      return await axios.post(`${this.baseUrl}/accounts`, account)
     })
     return [response.data, response.error]
   }
 
   async activateAccount(token : string): Promise<[string | null, string | null]>{
     const response = await handleApiCall<TokenModel>(async()=>{
-      return await axios.post(`${this.baseUrl}/api/v1/auth/accounts/activate`, {code: token})
+      return await axios.post(`${this.baseUrl}/accounts/activate`, {code: token})
     })
     if(response.error){
       return [null, response.error]
@@ -48,7 +48,7 @@ export class AuthService {
 
   async loginAccount(loginModel: LoginModel): Promise<[string | null, string | null]>{
     const response = await handleApiCall<TokenModel>(async()=>{
-      return await axios.post(`${this.baseUrl}/api/v1/auth/sessions`, loginModel)
+      return await axios.post(`${this.baseUrl}/sessions`, loginModel)
     })
     if(response.error){
       return [null, response.error]
@@ -61,7 +61,7 @@ export class AuthService {
 
   async refreshSession(): Promise<[string | null, string | null]>{
     const response = await handleApiCall<TokenModel>(async()=>{
-      return await axios.post(`${this.baseUrl}/api/v1/auth/refresh`, {refreshToken: this.refreshToken})
+      return await axios.post(`${this.baseUrl}/refresh`, {refreshToken: this.refreshToken})
     })
     if(response.error){
       this.refreshToken = null 
