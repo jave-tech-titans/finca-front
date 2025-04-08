@@ -6,11 +6,17 @@ import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { LoginModel } from '../../models/LoginModel';
+import { RouterModule } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { Router } from '@angular/router';
+import { mainPageRoute, registerRoute } from '../../app.routes';
 
 
 @Component({
   selector: 'app-login',
-  imports: [CardModule, InputTextModule, FormsModule, FloatLabelModule, ButtonModule],
+  imports: [CardModule, InputTextModule, FormsModule, FloatLabelModule, ButtonModule, RouterModule, ToastModule],
+  providers: [ MessageService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -20,14 +26,35 @@ export class LoginComponent {
 
   authService: AuthService
 
-  constructor(authService: AuthService){
+  constructor(authService: AuthService, private messageService: MessageService, private router: Router){
     this.authService = authService
   }
 
-  login(){
-    this.authService.loginAccount(new LoginModel(this.email, this.password)).then((v)=>
-      console.log(`result ${v}`)
-    )
+  async login(){
+    console.log(this.password)
+    const [success, error] = await this.authService.loginAccount(new LoginModel(this.email, this.password))
+    if(error){
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: error,
+        life: 4000
+      })
+    }else{
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Exito',
+        detail: 'Iniciaste sesion',
+        life: 4000
+      })
+      setTimeout(() => {
+        this.router.navigate([`/${mainPageRoute}`]);
+      }, 4200);
+    }
+  }
+
+  goToRegister(){
+    this.router.navigate([`/${registerRoute}`]);
   }
 
 }

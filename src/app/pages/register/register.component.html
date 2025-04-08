@@ -1,0 +1,44 @@
+<p-toast></p-toast>
+<div class="panel">
+    <p-card 
+        [style]="{ width: '35rem', overflow: 'hidden', backgroundColor: '#ebebeb' }" 
+        styleClass="text-white"
+    >   
+        <div class="panel-content">
+            <h1>Registrate</h1>
+            <p-floatlabel style="margin-top: 8%; width: 100%;">
+                <input style="width: 100%;" pInputText id="name" [(ngModel)]="names" autocomplete="off" />
+                <label for="email">Nombres</label>
+            </p-floatlabel>
+
+            <p-floatlabel style="margin-top: 8%; width: 100%;">
+                <input style="width: 100%;" pInputText id="lastNames" [(ngModel)]="lastNames" autocomplete="off" />
+                <label for="email">Apellidos</label>
+            </p-floatlabel>
+
+
+            <p-floatlabel style="margin-top: 8%; width: 100%;">
+                <input style="width: 100%;" pInputText id="email" [(ngModel)]="email" autocomplete="off" />
+                <label for="email">Correo electronico</label>
+            </p-floatlabel>
+
+            <p-floatlabel style="margin-top: 8%; width: 100%;">
+                <input style="width: 100%;" pInputText id="password" [(ngModel)]="password" autocomplete="off" />
+                <label for="password">Contraseña</label>
+            </p-floatlabel>
+
+            <p-floatlabel style="margin-top: 8%; width: 100%;">
+                <input style="width: 100%;" pInputText id="number" [(ngModel)]="number" type="number" autocomplete="off" />
+                <label for="email">Numero</label>
+            </p-floatlabel>
+
+            <p-selectbutton style="margin-top: 48;" [options]="roleOptions" [(ngModel)]="role" class="ng-invalid ng-dirty" />
+
+            <div style="margin-top: 8%;">
+                <p-button label="Registrarse"  (onClick)="register()"/>
+            </div>
+            
+            <p-button label="Ya tienes cuenta?, Inicia sesion" variant="outlined" severity="secondary" size="small" (onClick)="goToLogin()"/>
+        </div>
+    </p-card>
+</div>

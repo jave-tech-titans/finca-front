@@ -6,8 +6,8 @@ export interface ApiResult<T> {
   error: string | null;
 }
 
-function hasErrorProperty(data: any): data is { error: string | number } {
-   return typeof data === 'object' && data !== null && 'error' in data && (typeof data.error === 'string');
+function hasErrorProperty(data: any): data is { TIMESTAMP: string,ERROR: string | number } {
+  return typeof data === 'object' && data !== null && 'ERROR' in data && (typeof data.ERROR === 'string');
 }
 
 export async function handleApiCall<T>(apiCallback: () => Promise<AxiosResponse<T>>): Promise<ApiResult<T>> {
@@ -23,7 +23,7 @@ export async function handleApiCall<T>(apiCallback: () => Promise<AxiosResponse<
       if (axiosError.response) {
         let errorMessage: string;
         if (hasErrorProperty(axiosError.response.data)){
-          errorMessage = getErrorMessage(axiosError.response.data.error.toString());
+          errorMessage = getErrorMessage(axiosError.response.data.ERROR.toString());
         } else {
           errorMessage = "Sucedio un error";
         }

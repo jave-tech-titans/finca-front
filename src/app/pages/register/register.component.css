@@ -1,12 +1,13 @@
 .panel{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 2rem;
-  z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+    background-color: hsla(0, 0%, 96%, 0);
+    z-index: 2;
 }
-
+  
 .panel-content {
     display: flex;
     flex-direction: column;
@@ -16,4 +17,4 @@
     padding-right: 10%;
     z-index: 3;
 }
-
+  

@@ -48,6 +48,7 @@ export class AuthService {
   }
 
   async loginAccount(loginModel: LoginModel): Promise<[string | null, string | null]>{
+    console.log(loginModel.password)
     const response = await handleApiCall<TokenModel>(async()=>{
       return await axios.post(`${this.baseUrl}/sessions`, loginModel)
     })

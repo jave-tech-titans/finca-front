@@ -1,23 +1,25 @@
-<div style="display: flex; justify-content: center; margin-top: 2rem; padding-left: 10rem;">
+<p-toast></p-toast>
+<div class="panel">
     <p-card 
-        [style]="{ width: '25rem', overflow: 'hidden', backgroundColor: '#ebebeb' }" 
+        [style]="{ width: '35rem', overflow: 'hidden', backgroundColor: '#ebebeb' }" 
         styleClass="text-white"
-    >
-        <ng-template #title> Inicia sesion</ng-template>
-                
-        <p-floatlabel style="margin-top: 2rem;">
-            <input pInputText id="email" [(ngModel)]="email" autocomplete="off" />
-            <label for="email">Correo electronico</label>
-        </p-floatlabel>
-
-        <p-floatlabel style="margin-top: 2rem;">
-            <input pInputText id="password" [(ngModel)]="password" autocomplete="off" />
-            <label for="password">Contraseña</label>
-        </p-floatlabel>
-
-        <div style="margin-top: 2rem;">
-            <p-button label="Iniciar sesion"  (onClick)="login()"/>
+    >   
+        <div class="panel-content">
+            <h1>Inicia sesion</h1>
+                    
+            <p-floatlabel style="margin-top: 8%; width: 100%;">
+                <input style="width: 100%;" pInputText id="email" [(ngModel)]="email" autocomplete="off" />
+                <label for="email">Correo electronico</label>
+            </p-floatlabel>
+            <p-floatlabel style="margin-top: 8%; width: 100%;">
+                <input style="width: 100%;"  pInputText id="password" type="password" [(ngModel)]="password" autocomplete="off" />
+                <label for="password">Contraseña</label>
+            </p-floatlabel>
+            <div style="margin-top: 8%;">
+                <p-button label="Iniciar sesion"  (onClick)="login()"/>
+            </div>
+            
+            <p-button label="No tienes cuenta?, registrate" variant="outlined" severity="secondary" size="small" (onClick)="goToRegister()"/>
         </div>
     </p-card>
-  </div>
-  
+</div>
