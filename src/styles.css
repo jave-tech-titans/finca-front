@@ -1,12 +1,47 @@
-
 @font-face {
-    font-family: 'atkison';
-    src: url('./assets/fonts/atkinson-hyperlegible-v11-latin-regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
+  font-family: 'atkison';
+  src: url('../assets/fonts/atkinson-hyperlegible-v11-latin-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
 }
-  
 
 body {
   font-family: 'atkison', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Estilos para componentes */
+.header {
+  background-color: #2c3e50;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.footer {
+  background-color: #34495e;
+  color: white;
+  padding: 1rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.property-card {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin: 1rem;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
