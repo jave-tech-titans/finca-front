@@ -1,0 +1,13 @@
+<div class="rental-request">
+    <h2>My Rental Requests</h2>
+    <div class="request-list">
+      <div class="request-card" *ngFor="let request of rentalRequests">
+        <h3>{{ request.propertyName }}</h3>
+        <p><strong>Start Date:</strong> {{ request.startDate }}</p>
+        <p><strong>End Date:</strong> {{ request.endDate }}</p>
+        <p><strong>Status:</strong> {{ request.status }}</p>
+        <p><strong>Price:</strong> ${{ request.price }}</p>
+      </div>
+      <p *ngIf="rentalRequests.length === 0" class="no-requests">No rental requests found.</p>
+    </div>
+  </div>

@@ -1,0 +1,11 @@
+<div class="activate-account-container">
+    <h2>Activate Account</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="code">Activation Code:</label>
+        <input type="text" id="code" [(ngModel)]="code" name="code" class="form-control" required />
+      </div>
+      <button type="submit" class="btn btn-primary">Activate</button>
+    </form>
+    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+  </div>

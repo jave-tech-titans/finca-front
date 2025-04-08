@@ -1,0 +1,16 @@
+<div class="property-list">
+    <h2>Properties</h2>
+    <div class="property-grid">
+      <div class="property-card" *ngFor="let property of properties">
+        <img [src]="property.imageUrl" alt="Property Image" class="property-image" />
+        <div class="property-details">
+          <h3>{{ property.name }}</h3>
+          <p><strong>Department:</strong> {{ property.department }}</p>
+          <p><strong>Rooms:</strong> {{ property.nRooms }} | <strong>People:</strong> {{ property.nPeople }}</p>
+          <p><strong>Price:</strong> ${{ property.price }}/night</p>
+          <p><strong>Rating:</strong> {{ property.rating || 'Not rated' }}</p>
+          <button [routerLink]="['/properties', property.id]" class="btn btn-primary">View Details</button>
+        </div>
+      </div>
+    </div>
+  </div>
