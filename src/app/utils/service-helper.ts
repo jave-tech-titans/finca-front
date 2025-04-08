@@ -23,7 +23,7 @@ export async function handleApiCall<T>(apiCallback: () => Promise<AxiosResponse<
       if (axiosError.response) {
         let errorMessage: string;
         if (hasErrorProperty(axiosError.response.data)){
-          errorMessage = getErrorMessage(axiosError.response.data.error);
+          errorMessage = getErrorMessage(axiosError.response.data.error.toString());
         } else {
           errorMessage = "Sucedio un error";
         }

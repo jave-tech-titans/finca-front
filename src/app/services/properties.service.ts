@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { PropertiesFilter } from '../models/PropertiesFIlter';
 import { AuthService } from './auth.service';
 import axios from 'axios';
 import { PropertyTileModel } from '../models/PropertyTileModel';
 import { PropertyModel } from '../models/PropertyModel';
+import { BASE_URL } from '../tokens';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class PropertiesService {
 
   private baseUrl : string
   private authService :AuthService
-  constructor(url : string, authService: AuthService) {
+  
+  constructor(@Inject(BASE_URL) url : string, authService: AuthService) {
     this.baseUrl = `${url}/properties`
     this.authService  = authService
   }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { AccountModel } from '../models/AccountModel';
 import { getErrorMessage, spanishErrorMessages } from '../errors/errors-map';
@@ -6,6 +6,7 @@ import { ApiResult, handleApiCall } from '../utils/service-helper';
 import { TokenModel } from '../models/TokenModel';
 import { StorageService } from './storage.service';
 import { LoginModel } from '../models/LoginModel';
+import { BASE_URL } from '../tokens';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AuthService {
   private storageService : StorageService
 
 
-  constructor(url: string, storageService : StorageService) {
+  constructor(@Inject(BASE_URL) url: string, storageService : StorageService) {
     this.baseUrl = `${url}/auth`
     this.storageService = storageService
     storageService.retrieve('refreshToken').then((value)=>{
@@ -83,5 +84,12 @@ export class AuthService {
       response = await handleApiCall(callback)
     }
     return response
+  }
+
+
+  getAuthHeader(): {[key:string] : string}{
+    return {
+      'Authorization' : `Bearer ${this.accessToken}` 
+    }
   }
 }

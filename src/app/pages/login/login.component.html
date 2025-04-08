@@ -1,0 +1,23 @@
+<div style="display: flex; justify-content: center; margin-top: 2rem; padding-left: 10rem;">
+    <p-card 
+        [style]="{ width: '25rem', overflow: 'hidden', backgroundColor: '#ebebeb' }" 
+        styleClass="text-white"
+    >
+        <ng-template #title> Inicia sesion</ng-template>
+                
+        <p-floatlabel style="margin-top: 2rem;">
+            <input pInputText id="email" [(ngModel)]="email" autocomplete="off" />
+            <label for="email">Correo electronico</label>
+        </p-floatlabel>
+
+        <p-floatlabel style="margin-top: 2rem;">
+            <input pInputText id="password" [(ngModel)]="password" autocomplete="off" />
+            <label for="password">Contraseña</label>
+        </p-floatlabel>
+
+        <div style="margin-top: 2rem;">
+            <p-button label="Iniciar sesion"  (onClick)="login()"/>
+        </div>
+    </p-card>
+  </div>
+  

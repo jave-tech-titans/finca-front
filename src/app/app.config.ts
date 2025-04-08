@@ -3,7 +3,22 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
+import { BASE_URL } from './tokens';
+
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideClientHydration(withEventReplay())]
+  providers: [
+    provideAnimationsAsync(),
+    providePrimeNG({
+      theme: {
+        preset: Aura
+      }
+    }),
+    provideZoneChangeDetection({ eventCoalescing: true }), 
+    provideRouter(routes), provideClientHydration(withEventReplay()),
+    { provide: BASE_URL, useValue: 'https://finca.javeriana.co/api/v1' }
+  ]
 };
