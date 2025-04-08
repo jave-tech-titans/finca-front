@@ -1,6 +1,9 @@
-// src/app/app-routing.module.ts
+// src/app/app.module.ts
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ActivateAccountComponent } from './components/activate-account/activate-account.component';
@@ -14,27 +17,37 @@ import { OwnerRentalRequestComponent } from './components/owner-rental-request/o
 import { PaymentComponent } from './components/payment/payment.component';
 import { RatingComponent } from './components/rating/rating.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
-
-const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'activate-account', component: ActivateAccountComponent },
-  { path: 'properties', component: PropertyListComponent },
-  { path: 'properties/create', component: PropertyCreateComponent },
-  { path: 'properties/:id', component: PropertyDetailComponent },
-  { path: 'properties/:id/update', component: PropertyUpdateComponent },
-  { path: 'rental-requests', component: RentalRequestComponent },
-  { path: 'rental-request/create/:propertyId', component: CreateRentalRequestComponent },
-  { path: 'owner-rental-requests', component: OwnerRentalRequestComponent },
-  { path: 'payment', component: PaymentComponent },
-  { path: 'rating', component: RatingComponent },
-  { path: 'schedule', component: ScheduleComponent }
-];
+import { BASE_URL } from './tokens';
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    RegisterComponent,
+    ActivateAccountComponent,
+    PropertyListComponent,
+    PropertyCreateComponent,
+    RentalRequestComponent,
+    PropertyDetailComponent,
+    PropertyUpdateComponent,
+    CreateRentalRequestComponent,
+    OwnerRentalRequestComponent,
+    PaymentComponent,
+    RatingComponent,
+    ScheduleComponent,
+    NavbarComponent,
+    HomeComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule
+  ],
+  providers: [
+    { provide: BASE_URL, useValue: 'http://localhost:8080/api' }
+  ],
+  bootstrap: [AppComponent]
 })
-export class AppRoutingModule {}
+export class AppModule {}
