@@ -1,0 +1,14 @@
+<nav class="navbar">
+    <div class="navbar-brand">
+      <a [routerLink]="['/']">MiFinca</a>
+    </div>
+    <div class="navbar-links">
+      <a *ngIf="isLoggedIn()" [routerLink]="['/properties']">Properties</a>
+      <a *ngIf="isLoggedIn()" [routerLink]="['/properties/create']">Create Property</a>
+      <a *ngIf="isLoggedIn()" [routerLink]="['/rental-requests']">My Rental Requests</a>
+      <a *ngIf="isLoggedIn()" [routerLink]="['/owner-rental-requests']">Owner Requests</a>
+      <a *ngIf="!isLoggedIn()" [routerLink]="['/login']">Login</a>
+      <a *ngIf="!isLoggedIn()" [routerLink]="['/register']">Register</a>
+      <button *ngIf="isLoggedIn()" (click)="logout()" class="btn btn-danger">Logout</button>
+    </div>
+  </nav>
