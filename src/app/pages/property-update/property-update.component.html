@@ -1,0 +1,47 @@
+<div class="property-update">
+    <h2>Update Property</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" [(ngModel)]="propertyData.name" name="name" class="form-control" required />
+      </div>
+      <div class="form-group">
+        <label for="department">Department:</label>
+        <input type="text" id="department" [(ngModel)]="propertyData.department" name="department" class="form-control" required />
+      </div>
+      <div class="form-group">
+        <label for="enterType">Enter Type:</label>
+        <input type="text" id="enterType" [(ngModel)]="propertyData.enterType" name="enterType" class="form-control" required />
+      </div>
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea id="description" [(ngModel)]="propertyData.description" name="description" class="form-control" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="numberRooms">Number of Rooms:</label>
+        <input type="number" id="numberRooms" [(ngModel)]="propertyData.numberRooms" name="numberRooms" class="form-control" required />
+      </div>
+      <div class="form-group">
+        <label for="numberBathrooms">Number of Bathrooms:</label>
+        <input type="number" id="numberBathrooms" [(ngModel)]="propertyData.numberBathrooms" name="numberBathrooms" class="form-control" required />
+      </div>
+      <div class="form-group">
+        <label for="isPetFriendly">Pet Friendly:</label>
+        <input type="checkbox" id="isPetFriendly" [(ngModel)]="propertyData.isPetFriendly" name="isPetFriendly" />
+      </div>
+      <div class="form-group">
+        <label for="hasPool">Has Pool:</label>
+        <input type="checkbox" id="hasPool" [(ngModel)]="propertyData.hasPool" name="hasPool" />
+      </div>
+      <div class="form-group">
+        <label for="hasAsador">Has Asador:</label>
+        <input type="checkbox" id="hasAsador" [(ngModel)]="propertyData.hasAsador" name="hasAsador" />
+      </div>
+      <div class="form-group">
+        <label for="nightPrice">Night Price:</label>
+        <input type="number" id="nightPrice" [(ngModel)]="propertyData.nightPrice" name="nightPrice" class="form-control" required />
+      </div>
+      <button type="submit" class="btn btn-primary">Update Property</button>
+    </form>
+    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+  </div>

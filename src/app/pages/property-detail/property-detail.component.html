@@ -1,0 +1,19 @@
+<div class="property-detail" *ngIf="property">
+    <h2>{{ property.name }}</h2>
+    <div class="property-gallery">
+      <img *ngFor="let picture of property.pictures" [src]="picture" alt="Property Image" class="property-image" />
+    </div>
+    <div class="property-info">
+      <p><strong>Department:</strong> {{ property.department }}</p>
+      <p><strong>Description:</strong> {{ property.description }}</p>
+      <p><strong>Enter Type:</strong> {{ property.enterType }}</p>
+      <p><strong>Rooms:</strong> {{ property.numberRooms }} | <strong>Bathrooms:</strong> {{ property.numberBathrooms }}</p>
+      <p><strong>Pet Friendly:</strong> {{ property.isPetFriendly ? 'Yes' : 'No' }}</p>
+      <p><strong>Has Pool:</strong> {{ property.hasPool ? 'Yes' : 'No' }}</p>
+      <p><strong>Has Asador:</strong> {{ property.hasAsador ? 'Yes' : 'No' }}</p>
+      <p><strong>Price:</strong> ${{ property.nightPrice }}/night</p>
+      <p><strong>Rating:</strong> {{ property.rating || 'Not rated' }}</p>
+    </div>
+    <button [routerLink]="['/rental-request/create', property.id]" class="btn btn-primary">Request Rental</button>
+  </div>
+  <div *ngIf="!property" class="loading">Loading property details...</div>
