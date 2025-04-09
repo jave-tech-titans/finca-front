@@ -26,12 +26,15 @@ export class LoginComponent {
 
   authService: AuthService
 
-  constructor(authService: AuthService, private messageService: MessageService, private router: Router){
+  constructor(
+    authService: AuthService, 
+    private messageService: MessageService, 
+    private router: Router
+  ){
     this.authService = authService
   }
 
   async login(){
-    console.log(this.password)
     const [success, error] = await this.authService.loginAccount(new LoginModel(this.email, this.password))
     if(error){
       this.messageService.add({

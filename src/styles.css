@@ -5,8 +5,15 @@
     font-weight: 400;
     font-style: normal;
 }
-  
+
 
 body {
   font-family: 'atkison', sans-serif;
+}
+  
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background-color: #6994bd; 
 }
