@@ -1,0 +1,27 @@
+
+<main>
+  <div *ngIf="properties.length > 0; else noProperties" class="property-grid">
+    <div *ngFor="let property of properties" class="card flex justify-content-center property-card">
+      <div class="flex-container">
+        <!-- Sección de la imagen -->
+        <div class="image-container">
+          <img alt="Card" src="{{property.miniatureURL}}" />
+        </div>
+        <!-- Sección del contenido -->
+        <div class="content-container">
+          <h2 class="property-title" style="text-align: center;">{{ property.name }}</h2>
+          <div class="property-details" style="text-align: left;">
+            <p>Rating: {{ property.rating }}</p>
+            <p>País: {{ property.department }}</p>
+            <p>Ciudad: {{ property.price }}</p>
+            <p>{{ property.name }}</p>
+          </div>
+          <!-- <p-button class="centered-btn" (click)="console.log('selected')" label="See more" icon="pi pi-check"></p-button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #noProperties>
+    <p>Finding properties...</p>
+  </ng-template>
+</main>

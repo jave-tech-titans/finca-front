@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Router } from '@angular/router';
-import { mainPageRoute, registerRoute } from '../../app.routes';
+import { homepageRoute, registerRoute } from '../../app.routes';
 
 
 @Component({
@@ -51,7 +51,7 @@ export class LoginComponent {
         life: 4000
       })
       setTimeout(() => {
-        this.router.navigate([`/${mainPageRoute}`]);
+        this.router.navigate([`/${homepageRoute}`]);
       }, 4200);
     }
   }

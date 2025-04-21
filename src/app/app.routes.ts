@@ -1,12 +1,20 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
-import { MainPageComponent } from './pages/main-page/main-page.component';
-import { PropertiesListComponent } from './pages/properties-list/properties-list.component';
+import { PropertiesListComponent } from './pages/shared/properties-list/properties-list.component';
+import { HomeComponent } from './pages/home/home.component';
+import { SearchPropertiesComponent } from './pages/search-properties/search-properties.component';
 
 export const loginRoute = "login"
 export const registerRoute = "register"
-export const mainPageRoute = "main"
+export const homepageRoute = "home"
+
+
+//only landlord routes
+export const myPropertiesRoute = "my-properties"
+export const ownerRentalRequests = "owner-rental-requests"
+
+//only client routes
 export const propertiesRoute = "properties"
 
 
@@ -14,8 +22,8 @@ export const propertiesRoute = "properties"
 export const routes: Routes = [
     {path: loginRoute, component: LoginComponent},
     {path: registerRoute, component: RegisterComponent},
-    {path: mainPageRoute, component: MainPageComponent},
-    {path: propertiesRoute, component: PropertiesListComponent},
+    {path: homepageRoute, component: HomeComponent},
+    {path: propertiesRoute, component: SearchPropertiesComponent},
 
 
     

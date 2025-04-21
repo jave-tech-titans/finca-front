@@ -1,0 +1,64 @@
+<app-menu></app-menu>
+<div class="page-container">
+    <div class="filters-container">
+        <div class="filter-row">
+            <input
+            type="text"
+            class="filter-input"
+            placeholder="Nombre"
+            [(ngModel)]="filters.name"
+            (input)="applyFilters()"
+            />
+
+            <input
+            type="text"
+            class="filter-input"
+            placeholder="Departamento"
+            [(ngModel)]="filters.department"
+            (input)="applyFilters()"
+            />
+        </div>
+
+        <div class="filter-row">
+            <input
+            type="number"
+            class="filter-input"
+            placeholder="Precio mínimo"
+            [(ngModel)]="filters.minPrice"
+            (input)="applyFilters()"
+            />
+
+            <input
+            type="number"
+            class="filter-input"
+            placeholder="Precio máximo"
+            [(ngModel)]="filters.maxPrice"
+            (input)="applyFilters()"
+            />
+        </div>
+
+        <div class="filter-row">
+            <input
+            type="number"
+            class="filter-input"
+            placeholder="Número de habitaciones"
+            [(ngModel)]="filters.nRooms"
+            (input)="applyFilters()"
+            />
+
+            <input
+            type="number"
+            class="filter-input"
+            placeholder="Capacidad de personas"
+            [(ngModel)]="filters.nPeople"
+            (input)="applyFilters()"
+            />
+        </div>
+    </div>
+
+    <app-properties-list [properties]="properties"></app-properties-list>
+
+    <div class="paginator-container">
+        <p-paginator (onPageChange)="onPageChange($event)" [first]="1" [rows]="10" [totalRecords]="100" [rowsPerPageOptions]="[10]" />
+    </div>
+</div>

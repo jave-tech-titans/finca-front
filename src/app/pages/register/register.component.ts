@@ -8,7 +8,7 @@ import { MessageService } from 'primeng/api';
 import { FormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { loginRoute, mainPageRoute, registerRoute } from '../../app.routes';
+import { loginRoute,} from '../../app.routes';
 import { AuthService } from '../../services/auth.service';
 import { AccountModel } from '../../models/AccountModel';
 

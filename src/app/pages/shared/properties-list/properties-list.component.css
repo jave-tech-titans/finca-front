@@ -1,0 +1,122 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  section {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+  }
+  
+  section input {
+    width: 70%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  main {
+    overflow-y: auto;
+    padding: 10px;
+    margin: 0;
+    flex-grow: 1;
+  }
+  
+  .property-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    padding: 20px;
+  }
+  
+  .property-card {
+    display: flex;
+    flex-direction: row; 
+    overflow: hidden;
+    margin: 1px;
+    padding: 15px;
+    text-align: center;
+    font-size: 0.8em;
+    border: 1px solid transparent;
+    transition: border 300ms ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    background-color: white; 
+    border-radius: 10px;    
+  }
+  
+  .property-card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+    border: 3px solid dodgerblue;
+  }
+  
+  .property-card img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .flex-container {
+    display: flex;
+    width: 100%;
+  }
+  
+  .image-container {
+    flex: 3;  
+    padding: 5px;
+  }
+  
+  .content-container {
+    flex: 2; 
+    padding: 5px;
+    text-align: left;
+  }
+  
+  .property-title {
+    margin-bottom: 10px;
+  }
+  
+  .property-details {
+    text-align: left; 
+    margin-left: 20px;
+  }
+  
+  .centered-btn {
+    display: flex;
+    justify-content: center; 
+    width: 100%;
+  }
+  
+  .property-card p, .property-card h2 {
+    margin: 0;
+    padding: 2px 0;
+  }
+  
+  .card { 
+    background-color: white !important; 
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+  
+  .flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .searchBox {
+    width: 100%;
+    height: 30px;
+    padding: 9px;
+  }
+  
+  .centered-btn {
+    padding: 10px;
+    border: none;
+    border-radius: 1px;
+    cursor: pointer;
+    transition: background-color 300ms ease;
+  }

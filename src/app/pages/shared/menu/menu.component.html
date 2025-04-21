@@ -1,0 +1,11 @@
+<div id="navbar-container">
+    <nav class="navBar">
+      <a *ngFor="let link of links" [href]="link.href">
+        {{ link.label }}
+      </a>
+      <a (click)="logoutUser()" style="color: red; background-color: white;">
+        Salir
+      </a>
+    </nav>
+  </div>
+  

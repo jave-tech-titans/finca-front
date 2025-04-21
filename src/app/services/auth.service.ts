@@ -17,6 +17,7 @@ export class AuthService {
   private refreshToken : string | null = null
   private accessToken : string | null = null
   private storageService : StorageService
+  public landlordRole : boolean = false
 
 
   constructor(@Inject(BASE_URL) url: string, storageService : StorageService) {
@@ -44,11 +45,11 @@ export class AuthService {
     this.storageService.store('refreshToken', response.data!.refreshToken)
     this.refreshToken = response.data!.refreshToken
     this.accessToken = response.data!.accessToken
+    this.landlordRole = response.data!.role === 'LANDLORD'
     return ["SUCCESS", null]    
   }
 
   async loginAccount(loginModel: LoginModel): Promise<[string | null, string | null]>{
-    console.log(loginModel.password)
     const response = await handleApiCall<TokenModel>(async()=>{
       return await axios.post(`${this.baseUrl}/sessions`, loginModel)
     })
@@ -58,6 +59,7 @@ export class AuthService {
     this.storageService.store('refreshToken', response.data!.refreshToken)
     this.refreshToken = response.data!.refreshToken
     this.accessToken = response.data!.accessToken
+    this.landlordRole = response.data!.role === 'LANDLORD'
     return ["SUCCESS", null]
   }
 
@@ -92,5 +94,10 @@ export class AuthService {
     return {
       'Authorization' : `Bearer ${this.accessToken}` 
     }
+  }
+
+
+  logout(){
+    this.storageService.delete('refreshToken')
   }
 }
