@@ -4,6 +4,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { PropertiesListComponent } from './pages/shared/properties-list/properties-list.component';
 import { HomeComponent } from './pages/home/home.component';
 import { SearchPropertiesComponent } from './pages/search-properties/search-properties.component';
+import { RentPropertyComponent } from './pages/rent-property/rent-property.component';
 
 export const loginRoute = "login"
 export const registerRoute = "register"
@@ -16,6 +17,7 @@ export const ownerRentalRequests = "owner-rental-requests"
 
 //only client routes
 export const propertiesRoute = "properties"
+export const rentProperty = "rent/properties"
 
 
 
@@ -24,6 +26,7 @@ export const routes: Routes = [
     {path: registerRoute, component: RegisterComponent},
     {path: homepageRoute, component: HomeComponent},
     {path: propertiesRoute, component: SearchPropertiesComponent},
+    {path: `${rentProperty}/:id`, component: RentPropertyComponent},
 
 
     

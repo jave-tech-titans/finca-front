@@ -15,11 +15,17 @@ import { ButtonModule } from 'primeng/button';
 })
 export class PropertiesListComponent {
   @Input() properties: Array<PropertyTileModel> = []
+  @Input() clickCallback : Function | null = null
 
   constructor(
   ){}
 
   getProperties(){
     return this.properties
+  }
+
+  onClick(property: PropertyTileModel){
+    console.log("calling")
+    this.clickCallback?.(property)
   }
 }

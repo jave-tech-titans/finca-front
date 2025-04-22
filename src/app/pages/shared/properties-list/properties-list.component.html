@@ -1,7 +1,7 @@
 
 <main>
   <div *ngIf="properties.length > 0; else noProperties" class="property-grid">
-    <div *ngFor="let property of properties" class="card flex justify-content-center property-card">
+    <div *ngFor="let property of properties" class="card flex justify-content-center property-card" (click)="onClick(property)">
       <div class="flex-container">
         <!-- Sección de la imagen -->
         <div class="image-container">

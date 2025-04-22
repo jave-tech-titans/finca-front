@@ -56,7 +56,7 @@
         </div>
     </div>
 
-    <app-properties-list [properties]="properties"></app-properties-list>
+    <app-properties-list [properties]="properties" [clickCallback]="selectProperty"></app-properties-list>
 
     <div class="paginator-container">
         <p-paginator (onPageChange)="onPageChange($event)" [first]="1" [rows]="10" [totalRecords]="100" [rowsPerPageOptions]="[10]" />

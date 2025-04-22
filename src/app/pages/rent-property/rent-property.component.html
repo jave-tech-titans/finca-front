@@ -1,0 +1,68 @@
+<app-menu></app-menu>
+<p-toast></p-toast>
+
+<main class="main-content">
+  <div class="property-container">
+    <div class="property-gallery">
+      <p-galleria
+        *ngIf="property?.pictures!.length > 0"
+        [value]="property!.pictures"
+        indicatorsPosition="bottom"
+        [showIndicators]="true"
+        [showThumbnails]="false"
+        [showIndicatorsOnItem]="true"
+        [containerStyle]="{'width': '100%', 'border-radius': '12px', 'overflow': 'hidden'}">
+        <ng-template pTemplate="item" let-item>
+          <img [src]="item" class="property-image" />
+        </ng-template>
+      </p-galleria>
+    </div>
+
+    <div class="property-info">
+      <h1 class="property-name">{{ property?.name }}</h1>
+      <p class="location">{{ property?.department }}</p>
+      <p class="description">{{ property?.description }}</p>
+
+      <div class="property-attributes">
+        <div class="attribute">
+          <i class="pi pi-dollar"></i>
+          <span>{{ property?.nightPrice }} / night</span>
+        </div>
+        <div class="attribute">
+          <i class="pi pi-star"></i>
+          <span>{{ property?.rating }}</span>
+        </div>
+        <div class="attribute">
+          <i class="pi pi-home"></i>
+          <span>{{ property?.numberROoms }} Rooms</span>
+        </div>
+        <div class="attribute">
+          <i class="pi pi-bath"></i>
+          <span>{{ property?.numberBathrooms }} Bathrooms</span>
+        </div>
+        <div class="attribute">
+          <i class="pi pi-car"></i>
+          <span>{{ property?.enterType }}</span>
+        </div>
+        <div class="attribute">
+          <i class="pi pi-utensils"></i>
+          <span>Kitchens: {{ property?.hasPool ? 'Yes' : 'No' }}</span>
+        </div>
+        <div class="attribute">
+          <i class="pi pi-paw"></i>
+          <span>Pet Friendly: {{ property?.isPetFriendly ? 'Yes' : 'No' }}</span>
+        </div>
+      </div>
+
+      <div class="action-section">
+        <p-button
+          label="Request Rent"
+          icon="pi pi-check"
+          (click)="requestProperty()"
+          [loading]="loading"
+          class="rent-button">
+        </p-button>
+      </div>
+    </div>
+  </div>
+</main>

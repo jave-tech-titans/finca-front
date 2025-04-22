@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { PropertiesService } from '../../services/properties.service';
 import { PropertyTileModel } from '../../models/PropertyTileModel';
 import { PropertiesFilter } from '../../models/PropertiesFIlter';
@@ -6,6 +7,7 @@ import { PropertiesListComponent } from "../shared/properties-list/properties-li
 import { MenuComponent } from "../shared/menu/menu.component";
 import { FormsModule } from '@angular/forms';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
+import { rentProperty } from '../../app.routes';
 
 
 @Component({
@@ -18,8 +20,11 @@ export class SearchPropertiesComponent {
   filters: PropertiesFilter = new PropertiesFilter('', '', 0, 0, 0, 0, 0);
   properties: Array<PropertyTileModel> = []
   constructor(
-    private service: PropertiesService
-  ){}
+    private service: PropertiesService,
+    private router: Router,
+  ){
+    this.selectProperty = this.selectProperty.bind(this);
+  }
 
   ngOnInit() {
     this.service.getProperties(new PropertiesFilter('', '', 0, 0, 0, 0, 0)).then(([props, err]) => {
@@ -42,5 +47,9 @@ export class SearchPropertiesComponent {
   onPageChange(event: PaginatorState){
     this.filters.page = event.page ?? 1
     this.applyFilters()
+  }
+
+  selectProperty(property: PropertyTileModel){
+    this.router.navigate([`/${rentProperty}`, property.id])
   }
 } 

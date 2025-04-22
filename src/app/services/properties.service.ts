@@ -34,7 +34,7 @@ export class PropertiesService {
   }
 
   async getFullProperty(propId:string) : Promise<[PropertyModel | null, string | null]>{
-    const response = await this.authService.doAuthHTTPCall<PropertyModel>(async()=>{
+    /*const response = await this.authService.doAuthHTTPCall<PropertyModel>(async()=>{
       return axios.get(`${this.baseUrl}/${propId}`, {
         headers: this.authService.getAuthHeader()
       })
@@ -42,7 +42,29 @@ export class PropertiesService {
     if(response.error){
       return [null, response.error]
     }
-    return [response.data!, null]
+    return [response.data!, null]*/
+    await new Promise(resolve => setTimeout(resolve, 50));
+    const mockProperty = new PropertyModel(
+      propId,                        
+      `Mock Property: ${propId}`,    
+      'Antioquia Mock Department',   
+      'A detailed description of this wonderful mock property. It has great views and amenities.', 
+      'Self Check-in',               
+      true,                          
+      true,                          
+      false,                         
+      3,                             
+      4,                             
+      275,                           
+      'mock-owner-xyz',              
+      4.7,                           
+      [                              
+        'https://multimedia.metrocuadrado.com/17914-M5353834/17914-M5353834_1_x.jpg',
+        'https://a.storyblok.com/f/160385/ffc3e05901/finca_colombia.jpg/m/?w=256&q=100',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaARc3rlcMsXfV6bT0jdwP8h6CwKgkbCj-Qw&s'
+      ]
+    );
+    return [mockProperty, null];
   }
 
   async getMyProperties(page: number) : Promise<[Array<PropertyTileModel> | null, string | null]>{
