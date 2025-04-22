@@ -1,0 +1,57 @@
+<app-menu></app-menu>
+<p-toast></p-toast>
+
+<div class="page-layout">
+
+  <div class="form-section">
+    <form [formGroup]="rentRequestForm" (ngSubmit)="requestRent()" class="card">
+      <h1>Request Rent</h1>
+
+      <div class="date-fields">
+        <p class="titleBold">Start Date</p>
+        <p-calendar formControlName="dateStart"></p-calendar>
+      </div>
+
+      <div class="date-fields">
+        <p class="titleBold">End Date</p>
+        <p-calendar formControlName="dateEnd"></p-calendar>
+      </div>
+
+      <div class="personsContainer">
+        <h1 style="text-align: center;">Guests</h1>
+        <p-inputNumber formControlName="numPeople" [showButtons]="true" [min]="1"
+          buttonLayout="vertical" spinnerMode="vertical"></p-inputNumber>
+      </div>
+
+      <div class="detailsContainer">
+        <p><span class="titleBold">Property:</span> {{ property.name }}</p>
+        <p><span class="titleBold">Country:</span> {{ property.department }}</p>
+        <p><span class="titleBold">Description:</span> {{ property.description }}</p>
+        <p><span class="titleBold">Total Price:</span> {{ calculatePrice() }}</p>
+      </div>
+
+      <button type="submit">Request rent</button>
+    </form>
+  </div>
+
+
+  <div class="schedules-section">
+    <h1>Fechas ocupadas</h1>
+    <div class="filter-bar">
+      <p-dropdown [options]="availableYears" [(ngModel)]="selectedYear" (onChange)="onFilterChange()"
+        placeholder="Year"></p-dropdown>
+      <p-dropdown [options]="availableMonths" [(ngModel)]="selectedMonth" (onChange)="onFilterChange()"
+        placeholder="Month"></p-dropdown>
+    </div>
+
+    <div *ngFor="let month of scheduleMonths">
+      <h3>{{ month }}</h3>
+      <div class="schedule-cards">
+        <div *ngFor="let schedule of schedulesByMonth[month]" class="schedule-card">
+          <p><strong>Start:</strong> {{ schedule.startDate }}</p>
+          <p><strong>End:</strong> {{ schedule.endDate }}</p>
+        </div>
+      </div>
+    </div>      
+  </div>
+</div>

@@ -7,7 +7,7 @@ import { PropertiesListComponent } from "../shared/properties-list/properties-li
 import { MenuComponent } from "../shared/menu/menu.component";
 import { FormsModule } from '@angular/forms';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
-import { rentProperty } from '../../app.routes';
+import { rentPropertyRoute } from '../../app.routes';
 
 
 @Component({
@@ -50,6 +50,6 @@ export class SearchPropertiesComponent {
   }
 
   selectProperty(property: PropertyTileModel){
-    this.router.navigate([`/${rentProperty}`, property.id])
+    this.router.navigate([`/${rentPropertyRoute}`, property.id])
   }
 } 

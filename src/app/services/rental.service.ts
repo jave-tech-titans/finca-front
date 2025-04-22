@@ -22,7 +22,7 @@ export class RentalService {
   }
 
   async getPropertySchedules(propertyId: string, year:number, month:number): Promise<[Array<ScheduleModel> | null, string | null]>{
-    const response = await this.authService.doAuthHTTPCall<Array<ScheduleModel>>(async()=>{
+    /*const response = await this.authService.doAuthHTTPCall<Array<ScheduleModel>>(async()=>{
       return axios.get(`${this.baseUrl}/${propertyId}/schedules`, {
         params: {
           year: year,
@@ -34,7 +34,31 @@ export class RentalService {
     if(response.error){
       return [null, response.error]
     }
-    return [response.data!, null]
+    return [response.data!, null]*/
+    const mockSchedules: ScheduleModel[] = [
+      new ScheduleModel('2025-01-10', '2025-01-15'),
+      new ScheduleModel('2025-01-20', '2025-01-22'),
+      new ScheduleModel('2025-03-05', '2025-03-10'),
+      new ScheduleModel('2025-04-12', '2025-04-18'),
+      new ScheduleModel('2025-04-25', '2025-04-28'),
+      new ScheduleModel('2025-06-01', '2025-06-03'),
+      new ScheduleModel('2025-12-20', '2025-12-31')
+    ];
+  
+    // Simulate small delay
+    await new Promise(res => setTimeout(res, 300));
+  
+    // 🔍 Filter by year
+    const filteredByYear = mockSchedules.filter(s => {
+      return new Date(s.startDate).getFullYear() === year;
+    });
+  
+    // 🔍 If a month is provided (not -1 or null), filter by month
+    const finalFiltered = month !== -1 && month !== null
+      ? filteredByYear.filter(s => new Date(s.startDate).getMonth() === month)
+      : filteredByYear;
+  
+    return [finalFiltered, null];
   }
 
   async getOwnerRentalRequests(page: number): Promise<[Array<OwnerRentalRequestModel> | null, string | null]>{
@@ -93,7 +117,7 @@ export class RentalService {
   }
 
   async createRentalRequest(propertyId: string, rentalRequest: CreateRentalRequestModel): Promise<[string | null, string | null]>{
-    const response = await this.authService.doAuthHTTPCall<string>(async()=>{
+    /*const response = await this.authService.doAuthHTTPCall<string>(async()=>{
       return axios.post(`${this.baseUrl}/${propertyId}/requests`, rentalRequest, {
         headers: this.authService.getAuthHeader()
       })
@@ -101,7 +125,14 @@ export class RentalService {
     if(response.error){
       return [null, response.error]
     }
-    return [response.data!, null]
+    return [response.data!, null]*/
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    if (!rentalRequest.startDate || !rentalRequest.endDate || !rentalRequest.nGuests) {
+      return [null, "Missing required rental request data."];
+    }
+    const mockRequestId = `mock-request-${Date.now()}`;
+    return [mockRequestId, null];
   }
 
   async createRating(requestId: string, ratingModel: CreateRatingModel) : Promise<[string | null, string | null]>{

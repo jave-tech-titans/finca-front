@@ -8,6 +8,7 @@ import { ToastModule } from 'primeng/toast';
 import { GalleriaModule } from 'primeng/galleria';
 import { ButtonModule } from 'primeng/button';
 import { MenuComponent } from "../shared/menu/menu.component";
+import { requestRentRoute } from '../../app.routes';
 
 @Component({
   selector: 'app-rent-property',
@@ -24,6 +25,7 @@ export class RentPropertyComponent {
   constructor(
     private service : PropertiesService,
     private route: ActivatedRoute,
+    private router: Router,
   ){}
 
   ngOnInit(){
@@ -38,6 +40,6 @@ export class RentPropertyComponent {
   }
 
   requestProperty(){
-
+    this.router.navigate([`/${requestRentRoute}`, this.property?.id])
   }
 }
