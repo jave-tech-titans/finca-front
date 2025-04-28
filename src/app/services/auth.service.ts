@@ -17,7 +17,7 @@ export class AuthService {
   private refreshToken : string | null = null
   private accessToken : string | null = null
   private storageService : StorageService
-  public landlordRole : boolean = false
+  public landlordRole : boolean = true
 
 
   constructor(@Inject(BASE_URL) url: string, storageService : StorageService) {
