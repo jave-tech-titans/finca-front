@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: finca-ingress
+  name: finca-front-ingress
   namespace: finca
 spec: 
   rules:
