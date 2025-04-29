@@ -1,0 +1,73 @@
+<div class="p-grid p-justify-center p-mt-4">
+  <div class="p-col-12 p-md-10">
+    <p-card
+      header="Solicitudes de Alquiler"
+      subheader="Gestiona las solicitudes de tus propiedades"
+    >
+      <ng-container *ngIf="rentalRequests.length > 0; else noRequests">
+        <p-table
+          [value]="rentalRequests"
+          [paginator]="true"
+          [rows]="5"
+          [responsiveLayout]="'scroll'"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Propiedad</th>
+              <th>Usuario</th>
+              <th>Fecha Inicio</th>
+              <th>Fecha Fin</th>
+              <th>Precio</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-request>
+            <tr>
+              <td>{{ request.propertyName }}</td>
+              <td>{{ request.userName }}</td>
+              <td>{{ request.startDate | date }}</td>
+              <td>{{ request.endDate | date }}</td>
+              <td>{{ request.price | currency : "USD" }}</td>
+              <td>
+                <p-tag
+                  [value]="request.status"
+                  [severity]="
+                    request.status === 'PENDING'
+                      ? 'info'
+                      : request.status === 'ACCEPTED'
+                      ? 'success'
+                      : 'danger'
+                  "
+                >
+                </p-tag>
+              </td>
+              <td>
+                <button
+                  *ngIf="request.status === 'PENDING'"
+                  pButton
+                  type="button"
+                  label="Aceptar"
+                  icon="pi pi-check"
+                  class="p-button-success p-mr-2"
+                  (click)="acceptRequest(request.id)"
+                ></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </ng-container>
+
+      <ng-template #noRequests>
+        <div class="p-text-center p-mt-5 p-mb-5">
+          <p class="p-text-secondary">
+            No tienes solicitudes de alquiler en este momento.
+          </p>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+</div>
+
+<p-toast></p-toast>

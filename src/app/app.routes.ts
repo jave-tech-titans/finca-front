@@ -6,31 +6,32 @@ import { HomeComponent } from './pages/home/home.component';
 import { SearchPropertiesComponent } from './pages/search-properties/search-properties.component';
 import { RentPropertyComponent } from './pages/rent-property/rent-property.component';
 import { RequestRentComponent } from './pages/request-rent/request-rent.component';
-import { BankInformationComponent } from './pages/bank-information/bank-information.component';
-export const loginRoute = "login"
-export const registerRoute = "register"
-export const homepageRoute = "home"
-
+import { OwnerRequestsComponent } from './pages/owner-requests/owner-requests.component';
+import { UserRequestsComponent } from './pages/user-requests/user-requests.component';
+export const loginRoute = 'login';
+export const registerRoute = 'register';
+export const homepageRoute = 'home';
+export const ownerRequests = 'ownerrequests';
+export const userRequests = 'userrequests';
 
 //only landlord routes
-export const myPropertiesRoute = "my-properties"
-export const ownerRentalRequests = "owner-rental-requests"
+export const myPropertiesRoute = 'my-properties';
+export const ownerRentalRequests = 'owner-rental-requests';
 
 //only client routes
-export const propertiesRoute = "properties"
-export const rentPropertyRoute = "rent/properties"
-export const requestRentRoute = "rental-requests/properties"
-
-
+export const propertiesRoute = 'properties';
+export const rentPropertyRoute = 'rent/properties';
+export const requestRentRoute = 'rental-requests/properties';
 
 export const routes: Routes = [
-    {path: loginRoute, component: LoginComponent},
-    {path: registerRoute, component: RegisterComponent},
-    {path: homepageRoute, component: HomeComponent},
-    {path: propertiesRoute, component: SearchPropertiesComponent},
-    {path: `${rentPropertyRoute}/:id`, component: RentPropertyComponent},
-    {path: `${requestRentRoute}/:id`, component: RequestRentComponent},
-    {path: 'rental-requests/:requestId/payment', component: BankInformationComponent }, // Nueva ruta
-    
-    {path: '**', component: LoginComponent}
+  { path: loginRoute, component: LoginComponent },
+  { path: registerRoute, component: RegisterComponent },
+  { path: homepageRoute, component: HomeComponent },
+  { path: propertiesRoute, component: SearchPropertiesComponent },
+  { path: `${rentPropertyRoute}/:id`, component: RentPropertyComponent },
+  { path: `${requestRentRoute}/:id`, component: RequestRentComponent },
+  { path: ownerRequests, component: OwnerRequestsComponent },
+  { path: userRequests, component: UserRequestsComponent },
+
+  { path: '**', component: LoginComponent },
 ];

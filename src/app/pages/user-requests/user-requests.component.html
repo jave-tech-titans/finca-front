@@ -1,0 +1,48 @@
+<p-card header="Mis Solicitudes de Arrendamiento" class="p-mb-4">
+  <ng-template pTemplate="header">
+    <h3>Mis Solicitudes de Arrendamiento</h3>
+  </ng-template>
+
+  <div *ngIf="loading" class="p-d-flex p-jc-center p-ai-center">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+
+  <div
+    *ngIf="!loading && rentalRequests.length === 0"
+    class="p-d-flex p-jc-center p-ai-center"
+  >
+    <p>No tienes solicitudes de arrendamiento.</p>
+  </div>
+
+  <div *ngIf="!loading && rentalRequests.length > 0">
+    <p-card *ngFor="let request of rentalRequests" class="p-mb-3">
+      <ng-template pTemplate="header">
+        <div class="p-d-flex p-jc-between p-ai-center">
+          <span>{{ request.propertyName }}</span>
+          <span>{{ request.status }}</span>
+        </div>
+      </ng-template>
+
+      <div class="p-d-flex p-jc-between p-ai-center">
+        <p>
+          <strong>Fechas:</strong> {{ request.startDate }} -
+          {{ request.endDate }}
+        </p>
+        <p><strong>Precio:</strong> ${{ request.price }}</p>
+      </div>
+
+      <div class="p-d-flex p-jc-between p-ai-center">
+        <p><strong>Solicitado el:</strong> {{ request.requestedAt }}</p>
+      </div>
+
+      <div class="p-d-flex p-jc-end p-ai-center">
+        <p-button
+          label="Cancelar Solicitud"
+          icon="pi pi-times"
+          class="p-button-danger"
+          (click)="cancelRentalRequest(request.id)"
+        ></p-button>
+      </div>
+    </p-card>
+  </div>
+</p-card>
