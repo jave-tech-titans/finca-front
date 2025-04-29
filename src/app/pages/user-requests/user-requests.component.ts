@@ -7,6 +7,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { MenuComponent } from '../shared/menu/menu.component';
+import { Router } from '@angular/router';
+import { ratingRoute } from '../../app.routes';
 
 @Component({
   selector: 'app-user-requests',
@@ -23,7 +25,8 @@ export class UserRequestsComponent implements OnInit {
 
   constructor(
     private rentalService: RentalService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -67,5 +70,9 @@ export class UserRequestsComponent implements OnInit {
         detail: error || 'No se pudo cancelar la solicitud',
       });
     }
+  }
+
+  async rate(requestId: string):Promise<void>{
+      this.router.navigate([`/${ratingRoute}`, requestId]);
   }
 }

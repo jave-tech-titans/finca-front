@@ -41,8 +41,7 @@
                       ? 'success'
                       : 'danger'
                   "
-                >
-                </p-tag>
+                ></p-tag>
               </td>
               <td>
                 <button
@@ -53,6 +52,16 @@
                   icon="pi pi-check"
                   class="p-button-success p-mr-2"
                   (click)="acceptRequest(request.id)"
+                ></button>
+
+                <button
+                  *ngIf="request.status === 'COMPLETED'"
+                  pButton
+                  type="button"
+                  label="Reseñar"
+                  icon="pi pi-star"
+                  class="p-button-warning"
+                  (click)="rate(request.id)"
                 ></button>
               </td>
             </tr>

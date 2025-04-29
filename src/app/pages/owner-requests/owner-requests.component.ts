@@ -10,6 +10,8 @@ import { RentalService } from '../../services/rental.service';
 import { OwnerRentalRequestModel } from '../../models/OnwerRentalRequestModel';
 import { CommonModule } from '@angular/common';
 import { MenuComponent } from '../shared/menu/menu.component';
+import { Router } from '@angular/router';
+import { ratingRoute } from '../../app.routes';
 
 @Component({
   selector: 'app-owner-requests',
@@ -33,7 +35,8 @@ export class OwnerRequestsComponent {
 
   constructor(
     private rentalService: RentalService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {}
 
   async ngOnInit() {
@@ -72,5 +75,9 @@ export class OwnerRequestsComponent {
         detail: 'No se pudo aceptar la solicitud',
       });
     }
+  }
+
+  async rate(requestId: string):Promise<void>{
+    this.router.navigate([`/${ratingRoute}`, requestId]);
   }
 }
