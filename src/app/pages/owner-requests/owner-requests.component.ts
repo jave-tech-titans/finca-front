@@ -9,6 +9,7 @@ import { MessageService } from 'primeng/api';
 import { RentalService } from '../../services/rental.service';
 import { OwnerRentalRequestModel } from '../../models/OnwerRentalRequestModel';
 import { CommonModule } from '@angular/common';
+import { BottomComponent } from "../shared/bottom/bottom.component";
 
 @Component({
   selector: 'app-owner-requests',
@@ -22,7 +23,8 @@ import { CommonModule } from '@angular/common';
     CardModule,
     TagModule,
     CommonModule,
-  ],
+    BottomComponent
+],
   providers: [MessageService],
   standalone: true,
 })

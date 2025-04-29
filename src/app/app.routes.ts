@@ -11,14 +11,13 @@ import { UserRequestsComponent } from './pages/user-requests/user-requests.compo
 export const loginRoute = 'login';
 export const registerRoute = 'register';
 export const homepageRoute = 'home';
-export const ownerRequests = 'ownerrequests';
-export const userRequests = 'userrequests';
 
 //only landlord routes
 export const myPropertiesRoute = 'my-properties';
-export const ownerRentalRequests = 'owner-rental-requests';
+export const ownerRequests = 'ownerrequests';
 
 //only client routes
+export const userRequests = 'userrequests';
 export const propertiesRoute = 'properties';
 export const rentPropertyRoute = 'rent/properties';
 export const requestRentRoute = 'rental-requests/properties';

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { StorageService } from '../../../services/storage.service';
 import { AuthService } from '../../../services/auth.service';
-import { homepageRoute, myPropertiesRoute, ownerRentalRequests, propertiesRoute } from '../../../app.routes';
+import { homepageRoute, myPropertiesRoute, ownerRequests, propertiesRoute, userRequests } from '../../../app.routes';
 import { CommonModule } from '@angular/common';
 
 
@@ -36,7 +36,7 @@ export class MenuComponent {
         },
         {
           label: "Mis solicitudes",
-          href : `/${ownerRentalRequests}`
+          href : `/${ownerRequests}`
         }
       ]
     }else{
@@ -48,7 +48,11 @@ export class MenuComponent {
         {
           label: "Buscar fincas",
           href : `/${propertiesRoute}`
-        }
+        },
+        {
+          label: "Mis solicitudes",
+          href : `/${userRequests}`
+        },
       ]
     }
   }

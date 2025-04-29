@@ -18,11 +18,12 @@ import { ScheduleModel } from '../../models/ScheduleModel';
 import { format } from 'date-fns';
 import { DropdownModule } from 'primeng/dropdown';
 import { homepageRoute } from '../../app.routes';
+import { BottomComponent } from "../shared/bottom/bottom.component";
 
 
 @Component({
   selector: 'app-request-rent',
-  imports: [ToastModule,MenuComponent, CommonModule, FormsModule, ReactiveFormsModule, InputNumberModule, CalendarModule,DropdownModule ],
+  imports: [ToastModule, MenuComponent, CommonModule, FormsModule, ReactiveFormsModule, InputNumberModule, CalendarModule, DropdownModule, BottomComponent],
   templateUrl: './request-rent.component.html',
   styleUrl: './request-rent.component.css',
   providers: [MessageService]
