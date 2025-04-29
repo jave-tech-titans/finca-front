@@ -9,9 +9,11 @@ import { RequestRentComponent } from './pages/request-rent/request-rent.componen
 import { OwnerRequestsComponent } from './pages/owner-requests/owner-requests.component';
 import { UserRequestsComponent } from './pages/user-requests/user-requests.component';
 import { BankInformationComponent } from './pages/bank-information/bank-information.component';
+import { ConfirmAccComponent } from './pages/confirm-acc/confirm-acc.component';
 export const loginRoute = 'login';
 export const registerRoute = 'register';
 export const homepageRoute = 'home';
+export const confirm = "confirm"
 
 //only landlord routes
 export const myPropertiesRoute = 'my-properties';
@@ -33,5 +35,6 @@ export const routes: Routes = [
   { path: ownerRequests, component: OwnerRequestsComponent },
   { path: userRequests, component: UserRequestsComponent },
   {path: 'rental-requests/:requestId/payment', component: BankInformationComponent },
+  {path:`${confirm}/:token`, component:ConfirmAccComponent },
   { path: '**', component: LoginComponent },
 ]

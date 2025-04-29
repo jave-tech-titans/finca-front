@@ -85,12 +85,21 @@ export class PropertiesService {
   }
 
   async getProperties(filter: PropertiesFilter) : Promise<[Array<PropertyTileModel> | null, string | null]>{
+    const cleanFilter: {[key: string]: any} = {};
+
+    Object.keys(filter).forEach(key => {
+      const value = (filter as any)[key];
+      if (value !== null && value !== undefined) {
+        cleanFilter[key] = value;
+      }
+    });
     const response = await  this.authService.doAuthHTTPCall<Array<PropertyTileModel>>(async()=>{
       return axios.get(`${this.baseUrl}`, {
-        params: filter,
+        params: cleanFilter,
         headers: this.authService.getAuthHeader()
       })
     })
+    console.log(this.authService.getAuthHeader())
     if(response.error){
       return [null, response.error]
     }

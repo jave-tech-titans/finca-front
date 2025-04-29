@@ -17,7 +17,7 @@ import { rentPropertyRoute } from '../../app.routes';
   styleUrl: './search-properties.component.css'
 })
 export class SearchPropertiesComponent {
-  filters: PropertiesFilter = new PropertiesFilter('', '', 0, 0, 0, 0, 0);
+  filters: PropertiesFilter = new PropertiesFilter(null, null, null, null, null, null, null);
   properties: Array<PropertyTileModel> = []
   constructor(
     private service: PropertiesService,
@@ -27,8 +27,9 @@ export class SearchPropertiesComponent {
   }
 
   ngOnInit() {
-    this.service.getProperties(new PropertiesFilter('', '', 0, 0, 0, 0, 0)).then(([props, err]) => {
+    this.service.getProperties(this.filters).then(([props, err]) => {
       this.properties = props ?? [];
+      console.log(err)
     });
   }
   
@@ -36,19 +37,19 @@ export class SearchPropertiesComponent {
     return this.properties
   }
 
-  applyFilters() {
+  applyFilters= ()=>{
     this.properties = []
     this.service.getProperties(this.filters).then(([props, err]) => {
       this.properties = props ?? [];
     });
   }
 
-  onPageChange(event: PaginatorState){
+  onPageChange=(event: PaginatorState)=>{
     this.filters.page = event.page ?? 1
     this.applyFilters()
   }
 
-  selectProperty(property: PropertyTileModel){
+  selectProperty=(property: PropertyTileModel)=>{
     this.router.navigate([`/${rentPropertyRoute}`, property.id])
   }
 } 
