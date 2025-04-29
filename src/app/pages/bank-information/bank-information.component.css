@@ -1,0 +1,92 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem;
+    background-color: #f5f5f5;
+  }
+  
+  .banks-container {
+    width: 100%;
+    max-width: 35rem;
+    margin-bottom: 2rem;
+  }
+  
+  .bank-item {
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .panel {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .panel-content {
+    padding: 2rem;
+  }
+  
+  .panel-content h1 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: #333;
+    text-align: center;
+  }
+  
+  .field {
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
+  
+  .p-floatLabel {
+    display: block;
+  }
+  
+  input[pInputText] {
+    width: 100%;
+  }
+  
+  .p-message {
+    margin-top: 0.5rem;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  
+  .p-button {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+  }
+  
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  
+  .custom-spinner {
+    width: 50px;
+    height: 50px;
+  }
+  
+  /* Responsividad */
+  @media (max-width: 768px) {
+    .p-card,
+    .banks-container {
+      width: 90% !important;
+    }
+  
+    .panel-content h1 {
+      font-size: 1.25rem;
+    }
+  
+    .p-button {
+      padding: 0.5rem 1.5rem;
+      font-size: 0.9rem;
+    }
+  }

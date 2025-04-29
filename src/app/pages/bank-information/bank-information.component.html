@@ -1,0 +1,77 @@
+<p-toast position="top-right"></p-toast>
+
+<div class="container">
+  <!-- Lista de bancos -->
+  <div class="banks-container">
+    <p-orderList
+      [value]="banks"
+      dataKey="id"
+      [(selection)]="selectedBank"
+      name="selectedBank"
+      selectionMode="single"
+      [breakpoint]="'575px'"
+      [disabled]="isLoading"
+    >
+      <ng-template pTemplate="item" let-option>
+        <div class="bank-item">
+          {{ option.name }}
+        </div>
+      </ng-template>
+    </p-orderList>
+    <p-message
+      severity="error"
+      text="Debe seleccionar un banco"
+      *ngIf="paymentForm?.submitted && !selectedBank"
+    ></p-message>
+  </div>
+
+  
+  <div class="panel">
+    <p-card
+      [style]="{ width: '35rem', 'border-radius': '8px', 'background-color': '#ffffff' }"
+      styleClass="p-card-shadow"
+    >
+      <div class="panel-content">
+        <h1>Información de Pago</h1>
+
+        <form #paymentForm="ngForm" (ngSubmit)="pay(paymentForm)">
+          <!-- número de cuenta -->
+          <p-floatLabel class="field">
+            <input
+              pInputText
+              id="accountNumber"
+              type="number"
+              [(ngModel)]="paymentModel.accountNumber"
+              name="accountNumber"
+              required
+              min="0"
+              autocomplete="off"
+            />
+            <label for="accountNumber">Número de cuenta</label>
+          </p-floatLabel>
+          <p-message
+            severity="error"
+            text="El número de cuenta es requerido"
+            *ngIf="paymentForm.submitted && paymentForm.controls['accountNumber']?.errors?.['required']"
+          ></p-message>
+
+          <!-- Botón de pagar -->
+          <div class="button-container">
+            <p-button
+              label="Pagar"
+              type="submit"
+              [disabled]="isLoading"
+              [raised]="true"
+              severity="primary"
+            ></p-button>
+          </div>
+        </form>
+
+        <!-- Spinner de carga -->
+        <div class="spinner-container" *ngIf="isLoading">
+          <p-progressSpinner styleClass="custom-spinner"></p-progressSpinner>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>

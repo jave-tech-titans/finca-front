@@ -6,7 +6,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { SearchPropertiesComponent } from './pages/search-properties/search-properties.component';
 import { RentPropertyComponent } from './pages/rent-property/rent-property.component';
 import { RequestRentComponent } from './pages/request-rent/request-rent.component';
-
+import { BankInformationComponent } from './pages/bank-information/bank-information.component';
 export const loginRoute = "login"
 export const registerRoute = "register"
 export const homepageRoute = "home"
@@ -30,8 +30,7 @@ export const routes: Routes = [
     {path: propertiesRoute, component: SearchPropertiesComponent},
     {path: `${rentPropertyRoute}/:id`, component: RentPropertyComponent},
     {path: `${requestRentRoute}/:id`, component: RequestRentComponent},
-
-
+    {path: 'rental-requests/:requestId/payment', component: BankInformationComponent }, // Nueva ruta
     
     {path: '**', component: LoginComponent}
 ];
