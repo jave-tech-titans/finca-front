@@ -1,0 +1,53 @@
+<form class="property-form-container" [formGroup]="propertyForm" (ngSubmit)="saveChanges()">
+    <div class="form-field">
+      <label for="name">Nombre</label>
+      <input id="name" type="text" pInputText formControlName="name" />
+    </div>
+  
+    <div class="form-field">
+      <label for="location">Ubicación</label>
+      <input id="location" type="text" pInputText formControlName="location" />
+    </div>
+  
+    <div class="form-field">
+      <label for="price">Precio</label>
+      <p-inputNumber id="price" formControlName="price" [min]="0"></p-inputNumber>
+    </div>
+  
+    <div class="form-field">
+      <label for="description">Descripción</label>
+      <textarea id="description" pInputTextarea formControlName="description"></textarea>
+    </div>
+  
+    <div class="form-field">
+      <label for="status">Estado</label>
+      <p-checkbox id="status" formControlName="status" label="Activo" [binary]="true"></p-checkbox>
+    </div>
+  
+    <div class="upload-section">
+      <h3>Subir Imagen</h3>
+      <p-fileUpload
+        name="file"
+        customUpload="true"
+        (uploadHandler)="uploadImage($event)"
+        accept="image/*"
+        maxFileSize="5000000"
+        chooseLabel="Seleccionar Imagen"
+        uploadLabel="Subir"
+        cancelLabel="Cancelar">
+      </p-fileUpload>
+    </div>
+  
+    <div class="button-group">
+      <button pButton type="submit" label="Guardar Cambios" class="p-button-success"></button>
+      <button pButton type="button" label="Desactivar Propiedad" class="p-button-danger" (click)="deactivateProperty()"></button>
+    </div>
+  </form>
+  
+  <ng-template #loadingTemplate>
+    <div class="loading-container">
+      <p>Loading...</p>
+    </div>
+  </ng-template>
+  
+  
