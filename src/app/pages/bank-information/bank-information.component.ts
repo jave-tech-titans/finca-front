@@ -8,6 +8,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { PaymentService } from '../../services/payment.service';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -22,7 +23,7 @@ interface Bank {
   selector: 'app-bank-information',
   standalone: true,
   imports: [
-    OrderListModule,InputTextModule,ToastModule,CardModule,ButtonModule,FloatLabelModule,MessageModule,ProgressSpinnerModule,FormsModule
+    OrderListModule,InputTextModule,ToastModule,CardModule,ButtonModule,FloatLabelModule,MessageModule,ProgressSpinnerModule,FormsModule, CommonModule
   ],
   templateUrl: './bank-information.component.html',
   styleUrls: ['./bank-information.component.css'],
@@ -67,6 +68,12 @@ export class BankInformationComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe ingresar un número de cuenta y seleccionar un banco' });
       return;
     }
+    //validar longitud del numero de cuenta de 10 a 20 
+    //const accountNumberLength = this.paymentModel.accountNumber.length;
+    //if (accountNumberLength < 10 || accountNumberLength > 20) {
+    //  this.messageService.add({ severity: 'error', summary: 'Error', detail: 'El número de cuenta debe tener entre 10 y 20 dígitos' });
+    //  return;
+    //}
 
     this.paymentModel.bank = this.selectedBank[0].name;
     this.isLoading = true;
