@@ -13,7 +13,6 @@ spec:
       labels:
         app: finca-front
     spec:
-      hostNetwork: true
       containers:
       - name: finca-front-cont
         image: localhost:5000/finca-front:latest

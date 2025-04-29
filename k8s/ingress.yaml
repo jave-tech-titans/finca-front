@@ -12,6 +12,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: finca-service
+            name: finca-front-service
             port:
               number: 80
