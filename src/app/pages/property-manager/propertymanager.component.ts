@@ -14,6 +14,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
+import { TextareaModule } from 'primeng/textarea';
 
 @Component({
   selector: 'app-property-manager',
@@ -31,6 +32,7 @@ import { ToastModule } from 'primeng/toast';
     ConfirmDialogModule,
     DialogModule,
     ToastModule,
+    TextareaModule
   ],
   providers: [MessageService],
 })

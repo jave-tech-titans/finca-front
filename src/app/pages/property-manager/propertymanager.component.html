@@ -5,13 +5,13 @@
     </div>
   
     <div class="form-field">
-      <label for="location">Ubicación</label>
-      <input id="location" type="text" pInputText formControlName="location" />
+      <label for="department">Departamento</label>
+      <input id="department" type="text" pInputText formControlName="department" />
     </div>
   
     <div class="form-field">
-      <label for="price">Precio</label>
-      <p-inputNumber id="price" formControlName="price" [min]="0"></p-inputNumber>
+      <label for="enterType">Tipo de Entrada</label>
+      <input id="enterType" type="text" pInputText formControlName="enterType" />
     </div>
   
     <div class="form-field">
@@ -20,8 +20,30 @@
     </div>
   
     <div class="form-field">
-      <label for="status">Estado</label>
-      <p-checkbox id="status" formControlName="status" label="Activo" [binary]="true"></p-checkbox>
+      <label for="numberRooms">Número de Habitaciones</label>
+      <p-inputNumber id="numberRooms" formControlName="numberRooms" [min]="0"></p-inputNumber>
+    </div>
+  
+    <div class="form-field">
+      <label for="numberBathrooms">Número de Baños</label>
+      <p-inputNumber id="numberBathrooms" formControlName="numberBathrooms" [min]="0"></p-inputNumber>
+    </div>
+  
+    <div class="form-field">
+      <p-checkbox inputId="isPetFriendly" formControlName="isPetFriendly" binary="true" label="¿Se permiten mascotas?"></p-checkbox>
+    </div>
+  
+    <div class="form-field">
+      <p-checkbox inputId="hasPool" formControlName="hasPool" binary="true" label="¿Tiene piscina?"></p-checkbox>
+    </div>
+  
+    <div class="form-field">
+      <p-checkbox inputId="hasAsador" formControlName="hasAsador" binary="true" label="¿Tiene asador?"></p-checkbox>
+    </div>
+  
+    <div class="form-field">
+      <label for="nightPrice">Precio por Noche</label>
+      <p-inputNumber id="nightPrice" formControlName="nightPrice" [min]="0" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
     </div>
   
     <div class="upload-section">

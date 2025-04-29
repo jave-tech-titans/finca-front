@@ -167,7 +167,7 @@ export class PropertiesService {
   }
 
 
-  /*async updateProperty(property: UpdatePropertyDTO, id: string) : Promise<[string | null, string | null]>{
+  async updateProperty(property: UpdatePropertyDTO, id: string) : Promise<[string | null, string | null]>{
     const response = await this.authService.doAuthHTTPCall<string>(async()=>{
       return axios.put(`${this.baseUrl}/${id}`, property, {
         headers: this.authService.getAuthHeader()
@@ -178,25 +178,7 @@ export class PropertiesService {
     }
     return [response.data!, null]
     
-  }*/
- // SOLO PARA MOCK (luego vuelves al original)
- 
-async updateProperty(property: UpdatePropertyDTO, id: string): Promise<[PropertyTileModel | null, string | null]> {
-  await new Promise(resolve => setTimeout(resolve, 50));
-
-  const updatedMockProperty = new PropertyTileModel(
-    id,
-    property.name || 'Updated Mock Name',
-    property.department || 'Updated Mock Department',
-    property.numberRooms || 1,
-    property.numberBathrooms || 1,
-    property.nightPrice || 100,
-    4.5,
-    'https://via.placeholder.com/600x400'
-  );
-
-  return [updatedMockProperty, null];
-}
+  }
 
 
 
