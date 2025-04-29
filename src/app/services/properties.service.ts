@@ -186,7 +186,9 @@ export class PropertiesService {
       return [null, response.error]
     }
     return [response.data!, null]
+    
   }
+
 
 
   async uploadPicture(picture: File, propertyid: string) : Promise<[string | null, string | null]>{

@@ -1,0 +1,74 @@
+<p-toast></p-toast>
+
+<div class="container">
+  <h2>Actualizar Propiedad</h2>
+  
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-12 p-md-6">
+      <label for="name">Nombre</label>
+      <input pInputText id="name" [(ngModel)]="property.name">
+    </div>
+
+    <div class="p-field p-col-12 p-md-6">
+      <label for="department">Departamento</label>
+      <input pInputText id="department" [(ngModel)]="property.department">
+    </div>
+
+    <div class="p-field p-col-12 p-md-6">
+      <label for="enterType">Tipo de entrada</label>
+      <input pInputText id="enterType" [(ngModel)]="property.enterType">
+    </div>
+
+    <div class="p-field p-col-12">
+      <label for="description">Descripción</label>
+      <textarea pInputTextarea id="description" [(ngModel)]="property.description"></textarea>
+    </div>
+
+    <div class="p-field p-col-12 p-md-6">
+      <label for="rooms">Habitaciones</label>
+      <input pInputText id="rooms" type="number" [(ngModel)]="property.numberRooms">
+    </div>
+
+    <div class="p-field p-col-12 p-md-6">
+      <label for="bathrooms">Baños</label>
+      <input pInputText id="bathrooms" type="number" [(ngModel)]="property.numberBathrooms">
+    </div>
+
+    <div class="p-field-checkbox p-col-6">
+      <p-checkbox inputId="pet" [(ngModel)]="property.isPetFriendly" binary="true"></p-checkbox>
+      <label for="pet">Pet Friendly</label>
+    </div>
+
+    <div class="p-field-checkbox p-col-6">
+      <p-checkbox inputId="pool" [(ngModel)]="property.hasPool" binary="true"></p-checkbox>
+      <label for="pool">Piscina</label>
+    </div>
+
+    <div class="p-field-checkbox p-col-6">
+      <p-checkbox inputId="asador" [(ngModel)]="property.hasAsador" binary="true"></p-checkbox>
+      <label for="asador">Asador</label>
+    </div>
+
+    <div class="p-field p-col-12 p-md-6">
+      <label for="price">Precio por noche</label>
+      <input pInputText id="price" type="number" [(ngModel)]="property.nightPrice">
+    </div>
+
+    <div class="p-field p-col-12">
+      <button pButton type="button" label="Actualizar Propiedad" (click)="updateProperty()" [loading]="loading" class="p-button-success"></button>
+    </div>
+
+    <div class="p-field p-col-12">
+      <p-fileUpload mode="basic" name="file" accept="image/*" customUpload
+                    (onSelect)="onFileSelected($event)"
+                    chooseLabel="Seleccionar imagen"
+                    auto="true"
+                    (uploadHandler)="uploadImage()">
+      </p-fileUpload>
+    </div>
+
+    <div class="p-field p-col-12">
+      <button pButton type="button" label="Desactivar Propiedad" (click)="deactivateProperty()" class="p-button-danger"></button>
+    </div>
+  </div>
+</div>

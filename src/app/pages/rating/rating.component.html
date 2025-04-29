@@ -1,0 +1,40 @@
+<p-toast></p-toast>
+
+<div class="rating-container">
+
+  <p-card 
+  [style]="{ width: '35rem', overflow: 'hidden', backgroundColor: '#ebebeb' }" 
+  styleClass="text-white"
+>
+   
+    <div class="panel-content">
+    <h2>Calificar alquiler</h2>
+<!-- Puntuación -->
+<p-iftalabel style="margin-top: 8%; width: 100%;">
+    <input style="width: 100%;" pInputText id="score" [(ngModel)]="rating" autocomplete="off" />
+    <label for="score">Puntuación (1 a 5):</label>
+  </p-iftalabel>
+  
+  <!-- Comentario -->
+  <p-iftalabel style="margin-top: 8%; width: 100%;">
+    <input style="width: 100%;" pInputText id="comment" [(ngModel)]="comments" autocomplete="off" />
+    <label for="comment">Comentario:</label>
+  </p-iftalabel>
+  
+
+      <!-- Botón de enviar -->
+      <div style="margin-top: 8%;">
+        <p-button 
+          label="Enviar Calificación" 
+          type="submit" 
+          (onClick)="submitRating()" 
+          [disabled]="loading || !comments.trim()"
+        ></p-button>
+      </div>
+    </div>
+  </p-card>
+</div>
+
+
+
+

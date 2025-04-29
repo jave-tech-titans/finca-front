@@ -1,0 +1,48 @@
+.rating-container {
+    height: 100vh;
+    background-color: #b3d4f3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .panel-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+    color: #333; /* Mejor contraste con fondo claro */
+  }
+  
+  p-card {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+  }
+  
+  /* Estilos para el nuevo componente iftalabel */
+  p-iftalabel {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  p-iftalabel label {
+    margin-bottom: 0.25rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #333;
+  }
+  
+  p-iftalabel input {
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  p-button {
+    width: 100%;
+  }
+  
+  h2 {
+    margin: 0;
+    text-align: center;
+  }
+  
