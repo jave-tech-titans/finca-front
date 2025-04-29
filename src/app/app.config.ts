@@ -19,6 +19,6 @@ export const appConfig: ApplicationConfig = {
     }),
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes), provideClientHydration(withEventReplay()),
-    { provide: BASE_URL, useValue: 'http://localhost:9092/api/v1' }
+    { provide: BASE_URL, useValue: 'http://finca.javeriana.co/api/v1' }
   ]
 };

@@ -26,37 +26,37 @@
       <div class="property-attributes">
         <div class="attribute">
           <i class="pi pi-dollar"></i>
-          <span>{{ property?.nightPrice }} / night</span>
+          <span>{{ property?.nightPrice }} / Noche</span>
         </div>
         <div class="attribute">
           <i class="pi pi-star"></i>
-          <span>{{ property?.rating }}</span>
+          <span>Rating: {{ property?.rating }}</span>
         </div>
         <div class="attribute">
           <i class="pi pi-home"></i>
-          <span>{{ property?.numberROoms }} Rooms</span>
+          <span>{{ property?.numberROoms }} Hbitaciones</span>
         </div>
         <div class="attribute">
           <i class="pi pi-bath"></i>
-          <span>{{ property?.numberBathrooms }} Bathrooms</span>
+          <span>{{ property?.numberBathrooms }} Baños</span>
         </div>
         <div class="attribute">
           <i class="pi pi-car"></i>
-          <span>{{ property?.enterType }}</span>
+          <span>Tipo de entrada: {{ property?.enterType }}</span>
         </div>
         <div class="attribute">
           <i class="pi pi-utensils"></i>
-          <span>Kitchens: {{ property?.hasPool ? 'Yes' : 'No' }}</span>
+          <span>Piscina: {{ property?.hasPool ? 'Si' : 'No' }}</span>
         </div>
         <div class="attribute">
           <i class="pi pi-paw"></i>
-          <span>Pet Friendly: {{ property?.isPetFriendly ? 'Yes' : 'No' }}</span>
+          <span>AMigable con animales: {{ property?.isPetFriendly ? 'Si' : 'No' }}</span>
         </div>
       </div>
 
       <div class="action-section">
         <p-button
-          label="Request Rent"
+          label="Rentar"
           icon="pi pi-check"
           (click)="requestProperty()"
           [loading]="loading"

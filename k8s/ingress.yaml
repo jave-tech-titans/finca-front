@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: finca-front-ingress
+  namespace: finca
+spec: 
+  rules:
+  - host: finca.javeriana.co
+    http:
+      paths:
+      - path: "/"
+        pathType: Prefix
+        backend:
+          service:
+            name: finca-service
+            port:
+              number: 80

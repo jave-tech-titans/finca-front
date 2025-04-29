@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: finca-front
+  namespace: finca
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: finca-front
+  template:
+    metadata:
+      labels:
+        app: finca-front
+    spec:
+      hostNetwork: true
+      containers:
+      - name: finca-front-cont
+        image: localhost:5000/finca-front:latest
+        ports:
+        - containerPort: 80
