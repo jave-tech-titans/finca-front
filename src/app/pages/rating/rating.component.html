@@ -9,17 +9,18 @@
    
     <div class="panel-content">
     <h2>Calificar alquiler</h2>
-      <!-- Puntuación -->
-      <p-floatlabel style="margin-top: 8%; width: 100%;">
-        <input style="width: 100%;" pInputText id="score" [(ngModel)]="rating" autocomplete="off" />
-        <label for="scores">Puntuación (1 a 5):</label>
-    </p-floatlabel>
-
-      <!-- Comentario -->
-      <p-floatlabel style="margin-top: 8%; width: 100%;">
-        <input style="width: 100%;" pInputText id="comment" [(ngModel)]="comments" autocomplete="off" />
-        <label for="comment">Comentario:</label>
-    </p-floatlabel>
+<!-- Puntuación -->
+<p-iftalabel style="margin-top: 8%; width: 100%;">
+    <input style="width: 100%;" pInputText id="score" [(ngModel)]="rating" autocomplete="off" />
+    <label for="score">Puntuación (1 a 5):</label>
+  </p-iftalabel>
+  
+  <!-- Comentario -->
+  <p-iftalabel style="margin-top: 8%; width: 100%;">
+    <input style="width: 100%;" pInputText id="comment" [(ngModel)]="comments" autocomplete="off" />
+    <label for="comment">Comentario:</label>
+  </p-iftalabel>
+  
 
       <!-- Botón de enviar -->
       <div style="margin-top: 8%;">

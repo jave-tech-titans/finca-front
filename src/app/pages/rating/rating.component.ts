@@ -8,12 +8,13 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { FormsModule } from '@angular/forms';
+import { IftaLabelModule } from 'primeng/iftalabel';
 import { MenuComponent } from "../shared/menu/menu.component";
 
 
 @Component({
   selector: 'app-rating',
-  imports: [CardModule, FloatLabelModule, ToastModule, ButtonModule, FormsModule],
+  imports: [CardModule, FloatLabelModule, ToastModule, ButtonModule, FormsModule, IftaLabelModule ],
   templateUrl: './rating.component.html',
   styleUrls: ['./rating.component.css'],
   providers: [MessageService]
@@ -45,7 +46,7 @@ export class RatingComponent implements OnInit {
     }
 
     // Crear el modelo de rating con la calificación y los comentarios
-    const ratingModel = new CreateRatingModel(this.rating, this.comments);
+    const ratingModel = new CreateRatingModel(Number(this.rating), this.comments);
 
     // Llamada al servicio para crear el rating
     this.loading = true;
