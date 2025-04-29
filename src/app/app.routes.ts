@@ -30,7 +30,7 @@ export const routes: Routes = [
     {path: propertiesRoute, component: SearchPropertiesComponent},
     {path: `${rentPropertyRoute}/:id`, component: RentPropertyComponent},
     {path: `${requestRentRoute}/:id`, component: RequestRentComponent},
-    {path: 'rental-requests/:requestId/payment', component: BankInformationComponent }, // Nueva ruta
+    {path: 'rental-requests/:requestId/payment', component: BankInformationComponent },
     
     {path: '**', component: LoginComponent}
 ];
