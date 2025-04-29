@@ -38,7 +38,6 @@ export class SearchPropertiesComponent {
 
   applyFilters() {
     this.properties = []
-    console.log("reloaded")
     this.service.getProperties(this.filters).then(([props, err]) => {
       this.properties = props ?? [];
     });

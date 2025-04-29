@@ -5,53 +5,61 @@
 
   <div class="form-section">
     <form [formGroup]="rentRequestForm" (ngSubmit)="requestRent()" class="card">
-      <h1>Request Rent</h1>
+      <h1 class="form-title">Solicitar Renta</h1>
 
-      <div class="date-fields">
-        <p class="titleBold">Start Date</p>
-        <p-calendar formControlName="dateStart"></p-calendar>
+      <div class="date-group">
+        <div class="date-fields">
+          <label for="dateStart" class="field-label">Fecha Inicio</label>
+          <p-calendar id="dateStart" formControlName="dateStart"></p-calendar>
+        </div>
+      
+        <div class="date-fields">
+          <label for="dateEnd" class="field-label">Fecha Fin</label>
+          <p-calendar id="dateEnd" formControlName="dateEnd"></p-calendar>
+        </div>
       </div>
+      
 
-      <div class="date-fields">
-        <p class="titleBold">End Date</p>
-        <p-calendar formControlName="dateEnd"></p-calendar>
+      <div class="guests-group">
+        <label for="numPeople" class="field-label">Huéspedes</label>
+        <p-inputNumber
+          id="numPeople"
+          formControlName="numPeople"
+          [showButtons]="true"
+          [min]="1"
+          buttonLayout="vertical"
+          spinnerMode="vertical">
+        </p-inputNumber>
       </div>
-
-      <div class="personsContainer">
-        <h1 style="text-align: center;">Guests</h1>
-        <p-inputNumber formControlName="numPeople" [showButtons]="true" [min]="1"
-          buttonLayout="vertical" spinnerMode="vertical"></p-inputNumber>
-      </div>
+      
 
       <div class="detailsContainer">
-        <p><span class="titleBold">Property:</span> {{ property.name }}</p>
-        <p><span class="titleBold">Country:</span> {{ property.department }}</p>
-        <p><span class="titleBold">Description:</span> {{ property.description }}</p>
-        <p><span class="titleBold">Total Price:</span> {{ calculatePrice() }}</p>
+        <p><span class="titleBold">Propiedad:</span> {{ property.name }}</p>
+        <p><span class="titleBold">País:</span> {{ property.department }}</p>
+        <p><span class="titleBold">Descripción:</span> {{ property.description }}</p>
+        <p><span class="titleBold">Precio Total:</span> {{ calculatePrice() }}</p>
       </div>
 
-      <button type="submit">Request rent</button>
+      <button type="submit" class="submit-button">Solicitar Renta</button>
     </form>
   </div>
 
-
   <div class="schedules-section">
-    <h1>Fechas ocupadas</h1>
+    <h1 class="section-title">Fechas Ocupadas</h1>
     <div class="filter-bar">
-      <p-dropdown [options]="availableYears" [(ngModel)]="selectedYear" (onChange)="onFilterChange()"
-        placeholder="Year"></p-dropdown>
-      <p-dropdown [options]="availableMonths" [(ngModel)]="selectedMonth" (onChange)="onFilterChange()"
-        placeholder="Month"></p-dropdown>
+      <p-dropdown [options]="availableYears" [(ngModel)]="selectedYear" (onChange)="onFilterChange()" placeholder="Año"></p-dropdown>
+      <p-dropdown [options]="availableMonths" [(ngModel)]="selectedMonth" (onChange)="onFilterChange()" placeholder="Mes"></p-dropdown>
     </div>
 
     <div *ngFor="let month of scheduleMonths">
       <h3>{{ month }}</h3>
       <div class="schedule-cards">
         <div *ngFor="let schedule of schedulesByMonth[month]" class="schedule-card">
-          <p><strong>Start:</strong> {{ schedule.startDate }}</p>
-          <p><strong>End:</strong> {{ schedule.endDate }}</p>
+          <p><strong>Inicio:</strong> {{ schedule.startDate }}</p>
+          <p><strong>Fin:</strong> {{ schedule.endDate }}</p>
         </div>
       </div>
     </div>      
   </div>
+
 </div>

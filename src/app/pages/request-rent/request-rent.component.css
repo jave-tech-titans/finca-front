@@ -1,162 +1,195 @@
-/* Styles for the form content */
-.form-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: calc(100vh - 120px); /* Adjust 120px to the size of the menu and footer */
-    margin-bottom: 20px; /* Adjust the bottom margin to leave space for the footer */
-    margin-top: 20px; /* Add margin at the top */
-  }
-  
-  form {
-    background: white;
-    border-radius: 20px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 30%; 
-    gap: 10px; 
-  }
-  
-  
-  /* Styles for the date elements */
-  .date-fields {
-    display: flex;
-    justify-content: flex-start; /* Align to the left */
-    align-items: center; /* Vertically align */
-  }
-  
-  .date-fields p {
-    margin-right: 10px; /* Margin to the right to separate from the next text */
-  }
-  
-  /* Styles for the input fields */
-  input {
-    border: 1px solid #ccc; /* Gray border */
-    border-radius: 5px; /* Rounded corners */
-    height: 30px; /* Make the input fields taller */
-  }
-  
-  /* Styles for the number field */
-  input[type="number"] {
-    height: 30px; /* Make the number field the same height as the date fields */
-  }
-  
-  /* Styles for the submit button */
-  button[type="submit"] {
-    transition: all 0.3s ease;
-    width: 90%; /* Make the button wider */
-    height: 50px; /* Make the button taller */
-    margin-top: 10px;
-    background: linear-gradient(to right, #0a1f88, #2461ef); /* Gradient background */
-    color: #fff; /* White text */
-    border: none; /* No border */
-    border-radius: 30px; /* Rounded corners */
-    cursor: pointer; /* Hand cursor on hover */
-  }
-  
-  button[type="submit"]:hover {
-    background: linear-gradient(to right, #2461ef, #0a1f88); /* Reverse gradient on hover */
-    transform: scale(1.05); /* Slightly enlarge the button on hover */
-  }
-  
-  .incr {
-    color: black;
-    width: 50%;
-  }
-  
-  .personsContainer {
-    margin: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10%;
-  }
-  
-  .detailsContainer {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-  }
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #f9fafb;
+}
 
+.page-layout {
+  display: flex;
+  gap: 2rem;
+  height: calc(100vh - 80px);
+  padding: 2rem;
+  box-sizing: border-box;
+}
 
+.form-section, .schedules-section {
+  flex: 1;
+  max-width: 50%;
+}
+
+.form-section {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+form.card {
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #111827;
+}
+
+.date-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.field-label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 1rem;
+}
+
+.personsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.section-subtitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.detailsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+
+.titleBold {
+  font-weight: 600;
+  color: #111827;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 0.8rem;
+  background: linear-gradient(to right, #2563eb, #1d4ed8);
+  color: white;
+  border: none;
+  border-radius: 2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.submit-button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(to right, #1d4ed8, #2563eb);
+}
+
+.schedules-section {
+  overflow-y: auto;
+  padding-right: 1rem;
+  height: 100%;
+}
+
+.schedules-section::-webkit-scrollbar {
+  width: 8px;
+}
+
+.schedules-section::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.schedules-section::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #111827;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.schedule-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
+}
+
+.schedule-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  padding: 1rem;
+  font-size: 0.95rem;
+  color: #374151;
+}
+@media (max-width: 950px) {
   .page-layout {
-    display: flex;
-    gap: 2rem;
-    height: calc(100vh - 80px); 
-    padding: 2rem;
-    box-sizing: border-box;
-    overflow: hidden; 
+    flex-direction: column;
+    height: auto;
   }
 
-  .form-section, .schedules-section {
-    flex: 1;
-    max-width: 50%;
-  }
-
-  .schedules-section::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  .schedules-section::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.2);
-    border-radius: 10px;
-  }
-  
-  .schedules-section::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-  
+  .form-section,
   .schedules-section {
-    flex: 1;
-    max-width: 50%;
-    overflow-y: auto;         
-    padding-right: 1rem;
-    height: 100%;
-    box-sizing: border-box;
-    scrollbar-gutter: stable; 
+    max-width: 100%;
   }
 
   .form-section {
-    flex: 1;
-    max-width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    overflow: hidden; 
-  }
-  
-  form.card {
-    width: 100%;
-    max-width: 90%;
+    align-items: center;
+    padding-bottom: 2rem;
   }
 
-  .filter-bar {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    align-items: center;
+  form.card {
+    max-width: 90%;
   }
-  
-  .schedule-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-    gap: 1rem;
-  }
-  
-  .schedule-card {
-    padding: 1rem;
-    border-radius: 12px;
-    background: #fff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-    font-size: 0.95rem;
-    min-width: 180px;
-  }
-  
-  
+}
+
+.date-group {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.date-fields {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+
+.guests-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.guests-group .field-label {
+  white-space: nowrap;
+  font-weight: 600;
+  color: #374151;
+  font-size: 1rem;
+}

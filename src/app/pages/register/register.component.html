@@ -1,44 +1,44 @@
 <p-toast></p-toast>
 <div class="panel">
     <p-card 
-        [style]="{ width: '35rem', overflow: 'hidden', backgroundColor: '#ebebeb' }" 
-        styleClass="text-white"
+        [style]="{ width: '35rem', overflow: 'hidden', backgroundColor: '#f9f9f9', borderRadius: '1rem', boxShadow: '0 4px 24px rgba(0, 0, 0, 0.08)' }" 
+        styleClass="text-gray-800"
     >   
         <div class="panel-content">
-            <h1>Registrate</h1>
+            <h1 style="color: #1e1e1e;">Regístrate</h1>
+
             <p-floatlabel style="margin-top: 8%; width: 100%;">
-                <input style="width: 100%;" pInputText id="name" [(ngModel)]="names" autocomplete="off" />
-                <label for="email">Nombres</label>
+                <input style="width: 100%; border: 1px solid #ccc; border-radius: 0.5rem; padding: 0.7rem; font-size: 1rem;" pInputText id="name" [(ngModel)]="names" autocomplete="off" />
+                <label for="email" style="color: #555;">Nombres</label>
             </p-floatlabel>
 
             <p-floatlabel style="margin-top: 8%; width: 100%;">
-                <input style="width: 100%;" pInputText id="lastNames" [(ngModel)]="lastNames" autocomplete="off" />
-                <label for="email">Apellidos</label>
-            </p-floatlabel>
-
-
-            <p-floatlabel style="margin-top: 8%; width: 100%;">
-                <input style="width: 100%;" pInputText id="email" [(ngModel)]="email" autocomplete="off" />
-                <label for="email">Correo electronico</label>
+                <input style="width: 100%; border: 1px solid #ccc; border-radius: 0.5rem; padding: 0.7rem; font-size: 1rem;" pInputText id="lastNames" [(ngModel)]="lastNames" autocomplete="off" />
+                <label for="email" style="color: #555;">Apellidos</label>
             </p-floatlabel>
 
             <p-floatlabel style="margin-top: 8%; width: 100%;">
-                <input style="width: 100%;" pInputText id="password" [(ngModel)]="password" autocomplete="off" />
-                <label for="password">Contraseña</label>
+                <input style="width: 100%; border: 1px solid #ccc; border-radius: 0.5rem; padding: 0.7rem; font-size: 1rem;" pInputText id="email" [(ngModel)]="email" autocomplete="off" />
+                <label for="email" style="color: #555;">Correo electrónico</label>
             </p-floatlabel>
 
             <p-floatlabel style="margin-top: 8%; width: 100%;">
-                <input style="width: 100%;" pInputText id="number" [(ngModel)]="number" type="number" autocomplete="off" />
-                <label for="email">Numero</label>
+                <input style="width: 100%; border: 1px solid #ccc; border-radius: 0.5rem; padding: 0.7rem; font-size: 1rem;" pInputText id="password" [(ngModel)]="password" autocomplete="off" />
+                <label for="password" style="color: #555;">Contraseña</label>
             </p-floatlabel>
 
-            <p-selectbutton style="margin-top: 48;" [options]="roleOptions" [(ngModel)]="role" class="ng-invalid ng-dirty" />
+            <p-floatlabel style="margin-top: 8%; width: 100%;">
+                <input style="width: 100%; border: 1px solid #ccc; border-radius: 0.5rem; padding: 0.7rem; font-size: 1rem;" pInputText id="number" [(ngModel)]="number" type="number" autocomplete="off" />
+                <label for="email" style="color: #555;">Número</label>
+            </p-floatlabel>
+
+            <p-selectbutton style="margin-top: 8%;" [options]="roleOptions" [(ngModel)]="role" class="ng-invalid ng-dirty" />
 
             <div style="margin-top: 8%;">
-                <p-button label="Registrarse"  (onClick)="register()"/>
+                <p-button label="Registrarse" (onClick)="register()" severity="info" styleClass="p-button-rounded p-button-success p-button-lg" />
             </div>
             
-            <p-button label="Ya tienes cuenta?, Inicia sesion" variant="outlined" severity="secondary" size="small" (onClick)="goToLogin()"/>
+            <p-button label="¿Ya tienes cuenta? Inicia sesión" variant="outlined" severity="info" size="small" (onClick)="goToLogin()" styleClass="p-button-text" />
         </div>
     </p-card>
 </div>

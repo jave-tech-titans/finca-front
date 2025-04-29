@@ -1,52 +1,56 @@
-app-menu {
-    height: 60px;
-    flex-shrink: 0;
-    display: block;
+.filters-container {
+  padding: 2rem;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.filters-container {
-    padding: 1.5rem;
-    background-color: #f5f5f5;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .filter-row {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
-  }
-  
-  .filter-input {
-    flex: 1 1 200px;
-    padding: 0.6rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-  }
- 
-.page-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
 }
-  
-  
-.filters-container,
-  app-properties-list {
-    padding: 1rem;
-  }
-  
-  
-  app-properties-list {
-    flex: 1;
-  }
-  
-  
-  .paginator-container {
-    margin-top: auto;
-    padding: 1rem;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
-  }
-  
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-field label {
+  font-size: 0.9rem;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.filter-input {
+  padding: 0.6rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filter-input:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  outline: none;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+app-properties-list {
+  flex: 1;
+  padding: 1rem;
+}
+
+.paginator-container {
+  margin-top: auto;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+}

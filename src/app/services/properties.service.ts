@@ -34,7 +34,7 @@ export class PropertiesService {
   }
 
   async getFullProperty(propId:string) : Promise<[PropertyModel | null, string | null]>{
-    /*const response = await this.authService.doAuthHTTPCall<PropertyModel>(async()=>{
+    const response = await this.authService.doAuthHTTPCall<PropertyModel>(async()=>{
       return axios.get(`${this.baseUrl}/${propId}`, {
         headers: this.authService.getAuthHeader()
       })
@@ -42,8 +42,8 @@ export class PropertiesService {
     if(response.error){
       return [null, response.error]
     }
-    return [response.data!, null]*/
-    await new Promise(resolve => setTimeout(resolve, 50));
+    return [response.data!, null]
+    /*await new Promise(resolve => setTimeout(resolve, 50));
     const mockProperty = new PropertyModel(
       propId,                        
       `Mock Property: ${propId}`,    
@@ -64,11 +64,11 @@ export class PropertiesService {
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaARc3rlcMsXfV6bT0jdwP8h6CwKgkbCj-Qw&s'
       ]
     );
-    return [mockProperty, null];
+    return [mockProperty, null];*/
   }
 
   async getMyProperties(page: number) : Promise<[Array<PropertyTileModel> | null, string | null]>{
-    /*const reponse = await this.authService.doAuthHTTPCall<Array<PropertyTileModel>>(async()=>{
+    const reponse = await this.authService.doAuthHTTPCall<Array<PropertyTileModel>>(async()=>{
       return axios.get(`${this.baseUrl}/mine`, {
         params: {
           page: page
@@ -79,13 +79,13 @@ export class PropertiesService {
     if(reponse.error){
       return [null, reponse.error]
     }
-    return [reponse.data!, null]*/
-    await new Promise(resolve => setTimeout(resolve, 50));
-    return [this.getMockPropertiesTiles(), null];
+    return [reponse.data!, null]
+    /*await new Promise(resolve => setTimeout(resolve, 50));
+    return [this.getMockPropertiesTiles(), null];*/
   }
 
   async getProperties(filter: PropertiesFilter) : Promise<[Array<PropertyTileModel> | null, string | null]>{
-    /*const response = await  this.authService.doAuthHTTPCall<Array<PropertyTileModel>>(async()=>{
+    const response = await  this.authService.doAuthHTTPCall<Array<PropertyTileModel>>(async()=>{
       return axios.get(`${this.baseUrl}`, {
         params: filter,
         headers: this.authService.getAuthHeader()
@@ -94,9 +94,9 @@ export class PropertiesService {
     if(response.error){
       return [null, response.error]
     }
-    return [response.data!, null]*/
-    await new Promise(resolve => setTimeout(resolve, 50));
-    return [this.getMockPropertiesTiles(), null];
+    return [response.data!, null]
+    /*await new Promise(resolve => setTimeout(resolve, 50));
+    return [this.getMockPropertiesTiles(), null];*/
   }
 
   getMockPropertiesTiles(): Array<PropertyTileModel>{

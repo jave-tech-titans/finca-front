@@ -1,64 +1,84 @@
 <app-menu></app-menu>
 <div class="page-container">
     <div class="filters-container">
-        <div class="filter-row">
-            <input
-            type="text"
-            class="filter-input"
-            placeholder="Nombre"
-            [(ngModel)]="filters.name"
-            (input)="applyFilters()"
-            />
+        <div class="filters-grid">
+            <div class="filter-field">
+                <label for="name">Nombre</label>
+                <input
+                    id="name"
+                    type="text"
+                    class="filter-input"
+                    placeholder="Buscar nombre"
+                    [(ngModel)]="filters.name"
+                    (input)="applyFilters()"
+                />
+            </div>
 
-            <input
-            type="text"
-            class="filter-input"
-            placeholder="Departamento"
-            [(ngModel)]="filters.department"
-            (input)="applyFilters()"
-            />
-        </div>
+            <div class="filter-field">
+                <label for="department">Departamento</label>
+                <input
+                    id="department"
+                    type="text"
+                    class="filter-input"
+                    placeholder="Buscar departamento"
+                    [(ngModel)]="filters.department"
+                    (input)="applyFilters()"
+                />
+            </div>
 
-        <div class="filter-row">
-            <input
-            type="number"
-            class="filter-input"
-            placeholder="Precio mínimo"
-            [(ngModel)]="filters.minPrice"
-            (input)="applyFilters()"
-            />
+            <div class="filter-field">
+                <label for="minPrice">Precio mínimo</label>
+                <input
+                    id="minPrice"
+                    type="number"
+                    class="filter-input"
+                    placeholder="0"
+                    [(ngModel)]="filters.minPrice"
+                    (input)="applyFilters()"
+                />
+            </div>
 
-            <input
-            type="number"
-            class="filter-input"
-            placeholder="Precio máximo"
-            [(ngModel)]="filters.maxPrice"
-            (input)="applyFilters()"
-            />
-        </div>
+            <div class="filter-field">
+                <label for="maxPrice">Precio máximo</label>
+                <input
+                    id="maxPrice"
+                    type="number"
+                    class="filter-input"
+                    placeholder="1000000"
+                    [(ngModel)]="filters.maxPrice"
+                    (input)="applyFilters()"
+                />
+            </div>
 
-        <div class="filter-row">
-            <input
-            type="number"
-            class="filter-input"
-            placeholder="Número de habitaciones"
-            [(ngModel)]="filters.nRooms"
-            (input)="applyFilters()"
-            />
+            <div class="filter-field">
+                <label for="nRooms">Número de habitaciones</label>
+                <input
+                    id="nRooms"
+                    type="number"
+                    class="filter-input"
+                    placeholder="Ej: 3"
+                    [(ngModel)]="filters.nRooms"
+                    (input)="applyFilters()"
+                />
+            </div>
 
-            <input
-            type="number"
-            class="filter-input"
-            placeholder="Capacidad de personas"
-            [(ngModel)]="filters.nPeople"
-            (input)="applyFilters()"
-            />
+            <div class="filter-field">
+                <label for="nPeople">Capacidad de personas</label>
+                <input
+                    id="nPeople"
+                    type="number"
+                    class="filter-input"
+                    placeholder="Ej: 6"
+                    [(ngModel)]="filters.nPeople"
+                    (input)="applyFilters()"
+                />
+            </div>
         </div>
     </div>
 
     <app-properties-list [properties]="properties" [clickCallback]="selectProperty"></app-properties-list>
 
     <div class="paginator-container">
-        <p-paginator (onPageChange)="onPageChange($event)" [first]="1" [rows]="10" [totalRecords]="100" [rowsPerPageOptions]="[10]" />
+        <p-paginator (onPageChange)="onPageChange($event)" [first]="1" [rows]="4" [totalRecords]="100" [rowsPerPageOptions]="[4]" />
     </div>
 </div>
