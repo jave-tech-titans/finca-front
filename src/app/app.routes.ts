@@ -13,7 +13,7 @@ import { ConfirmAccComponent } from './pages/confirm-acc/confirm-acc.component';
 export const loginRoute = 'login';
 export const registerRoute = 'register';
 export const homepageRoute = 'home';
-export const confirm = "confirm"
+export const confirm = "auth/confirmation"
 
 //only landlord routes
 export const myPropertiesRoute = 'my-properties';

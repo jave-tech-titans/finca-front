@@ -7,6 +7,6 @@ export class PropertyTileModel{
         public nPeople : number,
         public price : number,
         public rating : number,
-        public miniatureURL : string
+        public imageUrl : string
     ){}
 }

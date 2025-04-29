@@ -29,6 +29,7 @@ export const spanishErrorMessages: { [key: string]: string } = {
 
 export function getErrorMessage(code :string): string{
     const message = spanishErrorMessages[code];
+    console.log(code)
     if (message) {
       return message;
     }   

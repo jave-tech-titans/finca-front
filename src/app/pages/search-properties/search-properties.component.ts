@@ -39,8 +39,12 @@ export class SearchPropertiesComponent {
 
   applyFilters= ()=>{
     this.properties = []
+    if (this.filters.page != null){
+      this.filters.page +=1
+    }
     this.service.getProperties(this.filters).then(([props, err]) => {
       this.properties = props ?? [];
+      this.properties.forEach((p)=>console.log("image is " + p.imageUrl))
     });
   }
 

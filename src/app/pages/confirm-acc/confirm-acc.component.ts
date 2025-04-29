@@ -8,6 +8,7 @@ import { homepageRoute } from '../../app.routes';
 @Component({
   selector: 'app-confirm-acc',
   imports: [ToastModule],
+  providers: [MessageService],
   templateUrl: './confirm-acc.component.html',
   styleUrl: './confirm-acc.component.css'
 })
@@ -21,6 +22,7 @@ export class ConfirmAccComponent {
   ){}
   
   ngOnInit(){
+    console.log("on confirm")
     const token = this.route.snapshot.paramMap.get('token') || "";  
     this.service.activateAccount(token).then(([jwt, err])=>{
       if(err){

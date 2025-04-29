@@ -6,12 +6,13 @@ import { MessageService } from 'primeng/api';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { MenuComponent } from '../shared/menu/menu.component';
 
 @Component({
   selector: 'app-user-requests',
   templateUrl: './user-requests.component.html',
   styleUrls: ['./user-requests.component.css'],
-  imports: [CommonModule, ButtonModule, CardModule, ProgressSpinnerModule],
+  imports: [CommonModule, ButtonModule, CardModule, ProgressSpinnerModule, MenuComponent],
   providers: [MessageService],
   standalone: true,
 })

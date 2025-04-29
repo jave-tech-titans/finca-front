@@ -2,7 +2,7 @@
   <div *ngIf="properties.length > 0; else noProperties" class="property-grid">
     <div *ngFor="let property of properties" class="property-card" (click)="onClick(property)">
       <div class="image-container">
-        <img alt="Property" src="{{property.miniatureURL}}" />
+        <img alt="Property" src="{{property.imageUrl}}" />
       </div>
       <div class="content-container">
         <h2 class="property-title">{{ property.name }}</h2>

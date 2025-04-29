@@ -23,7 +23,7 @@ export class RentalService {
 
   async getPropertySchedules(propertyId: string, year:number, month:number): Promise<[Array<ScheduleModel> | null, string | null]>{
     const response = await this.authService.doAuthHTTPCall<Array<ScheduleModel>>(async()=>{
-      return axios.get(`${this.baseUrl}/${propertyId}/schedules`, {
+      return axios.get(`${this.baseUrl}/properties/${propertyId}/schedules`, {
         params: {
           year: year,
           month: month
@@ -118,7 +118,7 @@ export class RentalService {
 
   async createRentalRequest(propertyId: string, rentalRequest: CreateRentalRequestModel): Promise<[string | null, string | null]>{
     const response = await this.authService.doAuthHTTPCall<string>(async()=>{
-      return axios.post(`${this.baseUrl}/${propertyId}/requests`, rentalRequest, {
+      return axios.post(`${this.baseUrl}/properties/${propertyId}/requests`, rentalRequest, {
         headers: this.authService.getAuthHeader()
       })
     })

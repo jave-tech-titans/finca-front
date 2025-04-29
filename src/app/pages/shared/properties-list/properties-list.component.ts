@@ -20,11 +20,12 @@ export class PropertiesListComponent {
   constructor(
   ){}
 
-  getProperties(){
+  getProperties=()=>{
+
     return this.properties
   }
 
-  onClick(property: PropertyTileModel){
+  onClick=(property: PropertyTileModel)=>{
     console.log("calling")
     this.clickCallback?.(property)
   }
