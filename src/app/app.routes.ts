@@ -12,6 +12,7 @@ import { BankInformationComponent } from './pages/bank-information/bank-informat
 import { ConfirmAccComponent } from './pages/confirm-acc/confirm-acc.component';
 import { PropertyManagerComponent } from './pages/property-manager/propertymanager.component';
 import { RatingComponent } from './pages/rating/rating.component';
+import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
 
 export const loginRoute = 'login';
 export const registerRoute = 'register';
@@ -22,6 +23,7 @@ export const confirm = "auth/confirmation"
 export const myPropertiesRoute = 'my-properties';
 export const ownerRequests = 'ownerrequests';
 export const managePropertyRoute = "manage-property";
+
 
 //only client routes
 export const userRequests = 'userrequests';
@@ -43,6 +45,7 @@ export const routes: Routes = [
   {path:`${confirm}/:token`, component:ConfirmAccComponent },
   {path: `${managePropertyRoute}/:id`, component: PropertyManagerComponent },
   { path: `${ratingRoute}/:id`, component: RatingComponent },
+  { path: myPropertiesRoute, component: MyPropertiesComponent },
   { path: '**', component: LoginComponent },
 
 ]
