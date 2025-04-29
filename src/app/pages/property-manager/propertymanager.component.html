@@ -1,75 +1,74 @@
-<form class="property-form-container" [formGroup]="propertyForm" (ngSubmit)="saveChanges()">
-    <div class="form-field">
+<p-toast></p-toast>
+
+<div class="container">
+  <h2>Actualizar Propiedad</h2>
+  
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-12 p-md-6">
       <label for="name">Nombre</label>
-      <input id="name" type="text" pInputText formControlName="name" />
+      <input pInputText id="name" [(ngModel)]="property.name">
     </div>
-  
-    <div class="form-field">
+
+    <div class="p-field p-col-12 p-md-6">
       <label for="department">Departamento</label>
-      <input id="department" type="text" pInputText formControlName="department" />
+      <input pInputText id="department" [(ngModel)]="property.department">
     </div>
-  
-    <div class="form-field">
-      <label for="enterType">Tipo de Entrada</label>
-      <input id="enterType" type="text" pInputText formControlName="enterType" />
+
+    <div class="p-field p-col-12 p-md-6">
+      <label for="enterType">Tipo de entrada</label>
+      <input pInputText id="enterType" [(ngModel)]="property.enterType">
     </div>
-  
-    <div class="form-field">
+
+    <div class="p-field p-col-12">
       <label for="description">Descripción</label>
-      <textarea id="description" pInputTextarea formControlName="description"></textarea>
+      <textarea pInputTextarea id="description" [(ngModel)]="property.description"></textarea>
     </div>
-  
-    <div class="form-field">
-      <label for="numberRooms">Número de Habitaciones</label>
-      <p-inputNumber id="numberRooms" formControlName="numberRooms" [min]="0"></p-inputNumber>
+
+    <div class="p-field p-col-12 p-md-6">
+      <label for="rooms">Habitaciones</label>
+      <input pInputText id="rooms" type="number" [(ngModel)]="property.numberRooms">
     </div>
-  
-    <div class="form-field">
-      <label for="numberBathrooms">Número de Baños</label>
-      <p-inputNumber id="numberBathrooms" formControlName="numberBathrooms" [min]="0"></p-inputNumber>
+
+    <div class="p-field p-col-12 p-md-6">
+      <label for="bathrooms">Baños</label>
+      <input pInputText id="bathrooms" type="number" [(ngModel)]="property.numberBathrooms">
     </div>
-  
-    <div class="form-field">
-      <p-checkbox inputId="isPetFriendly" formControlName="isPetFriendly" binary="true" label="¿Se permiten mascotas?"></p-checkbox>
+
+    <div class="p-field-checkbox p-col-6">
+      <p-checkbox inputId="pet" [(ngModel)]="property.isPetFriendly" binary="true"></p-checkbox>
+      <label for="pet">Pet Friendly</label>
     </div>
-  
-    <div class="form-field">
-      <p-checkbox inputId="hasPool" formControlName="hasPool" binary="true" label="¿Tiene piscina?"></p-checkbox>
+
+    <div class="p-field-checkbox p-col-6">
+      <p-checkbox inputId="pool" [(ngModel)]="property.hasPool" binary="true"></p-checkbox>
+      <label for="pool">Piscina</label>
     </div>
-  
-    <div class="form-field">
-      <p-checkbox inputId="hasAsador" formControlName="hasAsador" binary="true" label="¿Tiene asador?"></p-checkbox>
+
+    <div class="p-field-checkbox p-col-6">
+      <p-checkbox inputId="asador" [(ngModel)]="property.hasAsador" binary="true"></p-checkbox>
+      <label for="asador">Asador</label>
     </div>
-  
-    <div class="form-field">
-      <label for="nightPrice">Precio por Noche</label>
-      <p-inputNumber id="nightPrice" formControlName="nightPrice" [min]="0" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
+
+    <div class="p-field p-col-12 p-md-6">
+      <label for="price">Precio por noche</label>
+      <input pInputText id="price" type="number" [(ngModel)]="property.nightPrice">
     </div>
-  
-    <div class="upload-section">
-      <h3>Subir Imagen</h3>
-      <p-fileUpload
-        name="file"
-        customUpload="true"
-        (uploadHandler)="uploadImage($event)"
-        accept="image/*"
-        maxFileSize="5000000"
-        chooseLabel="Seleccionar Imagen"
-        uploadLabel="Subir"
-        cancelLabel="Cancelar">
+
+    <div class="p-field p-col-12">
+      <button pButton type="button" label="Actualizar Propiedad" (click)="updateProperty()" [loading]="loading" class="p-button-success"></button>
+    </div>
+
+    <div class="p-field p-col-12">
+      <p-fileUpload mode="basic" name="file" accept="image/*" customUpload
+                    (onSelect)="onFileSelected($event)"
+                    chooseLabel="Seleccionar imagen"
+                    auto="true"
+                    (uploadHandler)="uploadImage()">
       </p-fileUpload>
     </div>
-  
-    <div class="button-group">
-      <button pButton type="submit" label="Guardar Cambios" class="p-button-success"></button>
-      <button pButton type="button" label="Desactivar Propiedad" class="p-button-danger" (click)="deactivateProperty()"></button>
+
+    <div class="p-field p-col-12">
+      <button pButton type="button" label="Desactivar Propiedad" (click)="deactivateProperty()" class="p-button-danger"></button>
     </div>
-  </form>
-  
-  <ng-template #loadingTemplate>
-    <div class="loading-container">
-      <p>Loading...</p>
-    </div>
-  </ng-template>
-  
-  
+  </div>
+</div>

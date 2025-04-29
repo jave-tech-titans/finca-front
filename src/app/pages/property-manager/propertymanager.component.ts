@@ -1,124 +1,92 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { PropertiesService } from '../../services/properties.service';
+import { PropertyModel } from '../../models/PropertyModel';
+import { UpdatePropertyDTO } from '../../models/UpdatePropertyModel';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { UpdatePropertyDTO } from '../../models/UpdatePropertyModel'; 
-import { CommonModule } from '@angular/common';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { CheckboxModule } from 'primeng/checkbox';
-import { ButtonModule } from 'primeng/button';
-import { FileUploadModule } from 'primeng/fileupload';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { DropdownModule } from 'primeng/dropdown';
+import { CheckboxModule } from 'primeng/checkbox';
+import { FileUploadModule } from 'primeng/fileupload';
+import { GalleriaModule } from 'primeng/galleria';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-property-manager',
   templateUrl: './propertymanager.component.html',
-  styleUrl: './propertymanager.component.css',
-  standalone: true,
+  styleUrls: ['./propertymanager.component.css'],
   imports: [
     CommonModule,
-    InputTextModule,
-    InputNumberModule,
-    ReactiveFormsModule,
-    CheckboxModule,
-    ButtonModule,
-    FileUploadModule,
-    ConfirmDialogModule,
-    DialogModule,
+    FormsModule,
     ToastModule,
-    TextareaModule
+    ButtonModule,
+    InputTextModule,
+    TextareaModule,
+    InputNumberModule,
+    DropdownModule,
+    CheckboxModule,
+    FileUploadModule,
+    GalleriaModule,
+    ProgressSpinnerModule
   ],
-  providers: [MessageService],
+  providers: [MessageService]
 })
 export class PropertyManagerComponent implements OnInit {
 
-  propertyForm!: FormGroup;
-  loading: boolean = false;
-  propertyId!: string;
-
-  constructor(
-    private fb: FormBuilder,
-    private propertiesService: PropertiesService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private messageService: MessageService
-  ) {}
-
-  ngOnInit(): void {
-    this.propertyId = this.route.snapshot.paramMap.get('id') ?? '';
-
-    this.propertyForm = this.fb.group({
-      name: ['', Validators.required],
-      department: ['', Validators.required],
-      enterType: ['', Validators.required],
-      description: [''],
-      numberRooms: [0, Validators.required],
-      numberBathrooms: [0, Validators.required],
-      isPetFriendly: [false],
-      hasPool: [false],
-      hasAsador: [false],
-      nightPrice: [0, Validators.required],
-    });
-
-    this.loadProperty();
-  }
-
-  async loadProperty() {
-    this.loading = true;
-    const [property, error] = await this.propertiesService.getFullProperty(this.propertyId);
-    if (property) {
-      this.propertyForm.patchValue(property);
-    } else if (error) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
-    }
-    this.loading = false;
-  }
-
-  async saveChanges() {
-    if (this.propertyForm.invalid) {
-      this.messageService.add({ severity: 'warn', summary: 'Formulario inválido', detail: 'Por favor llena todos los campos requeridos.' });
-      return;
-    }
-
-    const updateData: UpdatePropertyDTO = this.propertyForm.value;
-    const [result, error] = await this.propertiesService.updateProperty(updateData, this.propertyId);
-
-    if (result) {
-      this.messageService.add({ severity: 'success', summary: 'Actualizado', detail: 'La propiedad fue actualizada.' });
-    } else if (error) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
-    }
-  }
-
-  async uploadImage(event: any) {
-    if (!event?.files?.length) {
-      return;
-    }
-    const file = event.files[0];
+    propertyId: string = '';
+    property: UpdatePropertyDTO = new UpdatePropertyDTO();
   
-    const [result, error] = await this.propertiesService.uploadPicture(file, this.propertyId);
+    selectedImage: File | null = null;
+    loading: boolean = false;
   
-    if (result) {
-      this.messageService.add({ severity: 'success', summary: 'Imagen subida', detail: 'La imagen fue subida correctamente.' });
-    } else if (error) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+    constructor(
+      private route: ActivatedRoute,
+      private service: PropertiesService,
+      private messageService: MessageService
+    ) {}
+  
+    ngOnInit(): void {
+      this.propertyId = this.route.snapshot.paramMap.get('id') ?? '';
+    }
+  
+    async updateProperty() {
+      this.loading = true;
+      const [result, error] = await this.service.updateProperty(this.property, this.propertyId);
+      this.loading = false;
+  
+      if (error) {
+        this.messageService.add({severity:'error', summary:'Error', detail: error});
+      } else {
+        this.messageService.add({severity:'success', summary:'Éxito', detail: 'Propiedad actualizada'});
+      }
+    }
+  
+    async uploadImage() {
+      if (!this.selectedImage) return;
+      const [result, error] = await this.service.uploadPicture(this.selectedImage, this.propertyId);
+      if (error) {
+        this.messageService.add({severity:'error', summary:'Error', detail: error});
+      } else {
+        this.messageService.add({severity:'success', summary:'Éxito', detail:'Imagen subida correctamente'});
+      }
+    }
+  
+    async deactivateProperty() {
+      const [result, error] = await this.service.deactivateProperty(this.propertyId);
+      if (error) {
+        this.messageService.add({severity:'error', summary:'Error', detail: error});
+      } else {
+        this.messageService.add({severity:'warn', summary:'Desactivada', detail:'Propiedad desactivada'});
+      }
+    }
+  
+    onFileSelected(event: any) {
+      this.selectedImage = event.files[0];
     }
   }
-  
-  async deactivateProperty() {
-    const [result, error] = await this.propertiesService.deactivateProperty(this.propertyId);
-
-    if (result) {
-      this.messageService.add({ severity: 'success', summary: 'Propiedad desactivada', detail: 'La propiedad fue desactivada.' });
-      this.router.navigate(['/']); 
-    } else if (error) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
-    }
-  }
-}
