@@ -23,7 +23,7 @@ export const confirm = "auth/confirmation"
 export const myPropertiesRoute = 'my-properties';
 export const ownerRequests = 'ownerrequests';
 export const managePropertyRoute = "manage-property";
-
+export const createPropertyRoute = "create-property";
 
 //only client routes
 export const userRequests = 'userrequests';
@@ -42,12 +42,12 @@ export const routes: Routes = [
   { path: `${requestRentRoute}/:id`, component: RequestRentComponent },
   { path: ownerRequests, component: OwnerRequestsComponent },
   { path: userRequests, component: UserRequestsComponent },
-  {path: 'rental-requests/:requestId/payment', component: BankInformationComponent },
-  {path:`${confirm}/:token`, component:ConfirmAccComponent },
-  {path: `${managePropertyRoute}/:id`, component: PropertyManagerComponent },
+  { path: 'rental-requests/:requestId/payment', component: BankInformationComponent },
+  { path: `${confirm}/:token`, component: ConfirmAccComponent },
+  { path: createPropertyRoute, component: PropertyManagerComponent },
+  { path: `${managePropertyRoute}/:id`, component: PropertyManagerComponent },
   { path: `${ratingRoute}/:id`, component: RatingComponent },
   { path: myPropertiesRoute, component: MyPropertiesComponent },
   { path: paymentRoute, component: BankInformationComponent },
   { path: '**', component: LoginComponent },
-
 ]

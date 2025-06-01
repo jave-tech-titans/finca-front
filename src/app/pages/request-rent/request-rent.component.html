@@ -12,7 +12,7 @@
                     </svg>
                 </div>
                 <div class="ml-3">
-                    <h3 class="text-sm font-medium text-red-800">Error loading property</h3>
+                    <h3 class="text-sm font-medium text-red-800">Error cargando propiedad</h3>
                     <div class="mt-2 text-sm text-red-700">{{ error.property }}</div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                                 [class.ng-invalid]="rentRequestForm.get('dateStart')?.invalid && rentRequestForm.get('dateStart')?.touched"
                             ></p-calendar>
                             <p *ngIf="rentRequestForm.get('dateStart')?.invalid && rentRequestForm.get('dateStart')?.touched" 
-                               class="text-sm text-red-600">Start date is required</p>
+                               class="text-sm text-red-600">Fecha de inicio es requerida</p>
                         </div>
 
                         <div class="space-y-2">
@@ -61,7 +61,7 @@
                                 [class.ng-invalid]="rentRequestForm.get('dateEnd')?.invalid && rentRequestForm.get('dateEnd')?.touched"
                             ></p-calendar>
                             <p *ngIf="rentRequestForm.get('dateEnd')?.invalid && rentRequestForm.get('dateEnd')?.touched" 
-                               class="text-sm text-red-600">End date is required</p>
+                               class="text-sm text-red-600">Fecha de fin es requerida</p>
                         </div>
                     </div>
 
@@ -81,7 +81,7 @@
                             [class.ng-invalid]="rentRequestForm.get('numPeople')?.invalid && rentRequestForm.get('numPeople')?.touched"
                         ></p-inputNumber>
                         <p *ngIf="rentRequestForm.get('numPeople')?.invalid && rentRequestForm.get('numPeople')?.touched" 
-                           class="text-sm text-red-600">At least one guest is required</p>
+                           class="text-sm text-red-600">Al menos un huésped es requerido</p>
                     </div>
 
                     <!-- Property Details -->

@@ -4,7 +4,7 @@
 <div class="min-h-screen bg-slate-200 py-16 content-center">
   <div class="max-w-2xl mx-auto px-4">
     <div class="bg-white rounded-lg shadow-lg p-6">
-      <h1 class="text-2xl font-bold text-gray-900 mb-6">Rate Your Stay</h1>
+      <h1 class="text-2xl font-bold text-gray-900 mb-6">Calificar tu estadia</h1>
 
       <!-- Error Display -->
       <div *ngIf="error" class="mb-6 bg-red-50 border border-red-200 rounded-md p-4">
@@ -22,7 +22,7 @@
 
       <!-- Star Rating -->
       <div class="mb-6">
-        <label class="block text-sm font-medium text-gray-700 mb-2">Rating</label>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Calificación</label>
         <div class="flex space-x-2">
           <button
             *ngFor="let star of stars"
@@ -37,18 +37,18 @@
             </svg>
           </button>
         </div>
-        <p class="mt-2 text-sm text-gray-500">Click to rate from 1 to 5 stars</p>
+        <p class="mt-2 text-sm text-gray-500">Haz click para calificar de 1 a 5 estrellas</p>
       </div>
 
       <!-- Comment Input -->
       <div class="mb-6">
-        <label for="comments" class="block text-sm font-medium text-gray-700 mb-2">Comments</label>
+        <label for="comments" class="block text-sm font-medium text-gray-700 mb-2">Comentarios</label>
         <textarea
           id="comments"
           [(ngModel)]="comments"
           rows="4"
           class="shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md p-4"
-          placeholder="Share your experience..."
+          placeholder="Comparte tu experiencia..."
         ></textarea>
       </div>
 

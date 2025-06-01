@@ -1,74 +1,244 @@
-<p-toast></p-toast>
+<app-menu></app-menu>
 
-<div class="container">
-  <h2>Actualizar Propiedad</h2>
-  
-  <div class="p-fluid p-formgrid p-grid">
-    <div class="p-field p-col-12 p-md-6">
-      <label for="name">Nombre</label>
-      <input pInputText id="name" [(ngModel)]="property.name">
+<div class="min-h-screen bg-slate-200 py-12 px-4 sm:px-6 lg:px-8 content-center">
+  <div class="max-w-3xl mx-auto my-7">
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="flex justify-center items-center py-12">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
     </div>
 
-    <div class="p-field p-col-12 p-md-6">
-      <label for="department">Departamento</label>
-      <input pInputText id="department" [(ngModel)]="property.department">
+    <!-- Error State -->
+    <div *ngIf="error" class="mb-8 bg-red-50 border border-red-200 rounded-xl p-4">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">Error</h3>
+          <div class="mt-2 text-sm text-red-700">{{ error }}</div>
+        </div>
+      </div>
     </div>
 
-    <div class="p-field p-col-12 p-md-6">
-      <label for="enterType">Tipo de entrada</label>
-      <input pInputText id="enterType" [(ngModel)]="property.enterType">
+    <!-- Success State -->
+    <div *ngIf="success" class="mb-8 bg-green-50 border border-green-200 rounded-xl p-4">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-green-800">Exito</h3>
+          <div class="mt-2 text-sm text-green-700">{{ success }}</div>
+        </div>
+      </div>
     </div>
 
-    <div class="p-field p-col-12">
-      <label for="description">Descripción</label>
-      <textarea pInputTextarea id="description" [(ngModel)]="property.description"></textarea>
-    </div>
+    <!-- Main Form -->
+    <div *ngIf="!isLoading" class="bg-white shadow rounded-lg">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-800">
+          {{ isCreateMode ? 'Create New Property' : 'Update Property' }}
+        </h2>
+      </div>
 
-    <div class="p-field p-col-12 p-md-6">
-      <label for="rooms">Habitaciones</label>
-      <input pInputText id="rooms" type="number" [(ngModel)]="property.numberRooms">
-    </div>
+      <form (ngSubmit)="handleSubmit()" class="p-6 space-y-6">
+        <!-- Basic Information -->
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">Nombre</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              [(ngModel)]="property.name"
+              class="mt-1 border block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-3 py-2"
+              required
+            >
+          </div>
 
-    <div class="p-field p-col-12 p-md-6">
-      <label for="bathrooms">Baños</label>
-      <input pInputText id="bathrooms" type="number" [(ngModel)]="property.numberBathrooms">
-    </div>
+          <div>
+            <label for="department" class="block text-sm font-medium text-gray-700">Departamento</label>
+            <select
+              id="department"
+              name="department"
+              [(ngModel)]="property.department"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-3 py-2"
+              required
+            >
+              <option value="">Selecciona un departamento...</option>
+              <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+            </select>
+          </div>
 
-    <div class="p-field-checkbox p-col-6">
-      <p-checkbox inputId="pet" [(ngModel)]="property.isPetFriendly" binary="true"></p-checkbox>
-      <label for="pet">Pet Friendly</label>
-    </div>
+          <div>
+            <label for="enterType" class="block text-sm font-medium text-gray-700">Tipo de entradae</label>
+            <input
+              type="text"
+              id="enterType"
+              name="enterType"
+              [(ngModel)]="property.enterType"
+              class="mt-1 border block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-3 py-2"
+              required
+            >
+          </div>
 
-    <div class="p-field-checkbox p-col-6">
-      <p-checkbox inputId="pool" [(ngModel)]="property.hasPool" binary="true"></p-checkbox>
-      <label for="pool">Piscina</label>
-    </div>
+          <div>
+            <label for="nightPrice" class="block text-sm font-medium text-gray-700">Precio por noche</label>
+            <input
+              type="number"
+              id="nightPrice"
+              name="nightPrice"
+              [(ngModel)]="property.nightPrice"
+              class="mt-1 block border w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-3 py-2"
+              required
+            >
+          </div>
+        </div>
 
-    <div class="p-field-checkbox p-col-6">
-      <p-checkbox inputId="asador" [(ngModel)]="property.hasAsador" binary="true"></p-checkbox>
-      <label for="asador">Asador</label>
-    </div>
+        <!-- Description -->
+        <div>
+          <label for="description" class="block text-sm font-medium text-gray-700">Descripcion</label>
+          <textarea
+            id="description"
+            name="description"
+            rows="4"
+            [(ngModel)]="property.description"
+            class="mt-1 border block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-3 py-2"
+            required
+          ></textarea>
+        </div>
 
-    <div class="p-field p-col-12 p-md-6">
-      <label for="price">Precio por noche</label>
-      <input pInputText id="price" type="number" [(ngModel)]="property.nightPrice">
-    </div>
+        <!-- Rooms and Bathrooms -->
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div>
+            <label for="rooms" class="block text-sm font-medium text-gray-700">Numero de habitaciones</label>
+            <input
+              type="number"
+              id="rooms"
+              name="numberRooms"
+              [(ngModel)]="property.numberRooms"
+              class="mt-1 border block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-3 py-2"
+              required
+            >
+          </div>
 
-    <div class="p-field p-col-12">
-      <button pButton type="button" label="Actualizar Propiedad" (click)="updateProperty()" [loading]="loading" class="p-button-success"></button>
-    </div>
+          <div>
+            <label for="bathrooms" class="block text-sm font-medium text-gray-700">Numero de baños</label>
+            <input
+              type="number"
+              id="bathrooms"
+              name="numberBathrooms"
+              [(ngModel)]="property.numberBathrooms"
+              class="mt-1 border block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-3 py-2"
+              required
+            >
+          </div>
+        </div>
 
-    <div class="p-field p-col-12">
-      <p-fileUpload mode="basic" name="file" accept="image/*" customUpload
-                    (onSelect)="onFileSelected($event)"
-                    chooseLabel="Seleccionar imagen"
-                    auto="true"
-                    (uploadHandler)="uploadImage()">
-      </p-fileUpload>
-    </div>
+        <!-- Amenities -->
+        <div class="space-y-4">
+          <h3 class="text-lg font-medium text-gray-900">Extras</h3>
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div class="flex items-center">
+              <input
+                type="checkbox"
+                id="petFriendly"
+                name="isPetFriendly"
+                [(ngModel)]="property.isPetFriendly"
+                class=" border h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              >
+              <label for="petFriendly" class="ml-2 block text-sm text-gray-900">Pet Friendly</label>
+            </div>
 
-    <div class="p-field p-col-12">
-      <button pButton type="button" label="Desactivar Propiedad" (click)="deactivateProperty()" class="p-button-danger"></button>
+            <div class="flex items-center">
+              <input
+                type="checkbox"
+                id="pool"
+                name="hasPool"
+                [(ngModel)]="property.hasPool"
+                class="h-4 w-4 border rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              >
+              <label for="pool" class="ml-2 block text-sm text-gray-900">Pisicna</label>
+            </div>
+
+            <div class="flex items-center">
+              <input
+                type="checkbox"
+                id="asador"
+                name="hasAsador"
+                [(ngModel)]="property.hasAsador"
+                class="h-4 w-4 border rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              >
+              <label for="asador" class="ml-2 block text-sm text-gray-900">BBQ</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image Upload - Only show in update mode -->
+        <div *ngIf="!isCreateMode" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Imagen de la propiedad</label>
+            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+              <div class="space-y-1 text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                  <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div class="flex text-sm text-gray-600">
+                  <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                    <span>Subir foto</span>
+                    <input
+                      id="file-upload"
+                      name="file-upload"
+                      type="file"
+                      class="sr-only"
+                      (change)="onFileSelected($event)"
+                      accept="image/*"
+                      [disabled]="isUploadingImage"
+                    >
+                  </label>
+                  <p class="pl-1">O arrastrar y suelta</p>
+                </div>
+                <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                <div *ngIf="isUploadingImage" class="mt-2">
+                  <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500 mx-auto"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-between pt-6">
+          <button
+            type="button"
+            *ngIf="!isCreateMode"
+            (click)="handleDeactivate()"
+            class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+          >
+            Desactivar propiedad
+          </button>
+          <div class="flex space-x-3">
+            <button
+              type="button"
+              routerLink="/my-properties"
+              class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              [disabled]="isLoading"
+              class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              {{ isCreateMode ? 'Create Property' : 'Update Property' }}
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>

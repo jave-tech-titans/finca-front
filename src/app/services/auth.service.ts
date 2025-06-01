@@ -17,17 +17,36 @@ export class AuthService {
   private refreshToken: string | null = null
   private accessToken: string | null = null
   private storageService: StorageService
-  public landlordRole: boolean = false
+  private role: string | null = null
 
   constructor(@Inject(BASE_URL) url: string, storageService: StorageService) {
     this.baseUrl = `${url}/auth`
     this.storageService = storageService
-    storageService.retrieve('refreshToken').then(value => {
-      this.refreshToken = value
+    
+    // Initialize stored values
+    Promise.all([
+      storageService.retrieve('refreshToken'),
+      storageService.retrieve('accessToken'),
+      storageService.retrieve('role')
+    ]).then(([refreshToken, accessToken, role]) => {
+      this.refreshToken = refreshToken
+      this.accessToken = accessToken
+      this.role = role
     })
-    storageService.retrieve('accessToken').then(value => {
-      this.accessToken = value
-    })
+  }
+
+  get isLandlord(): boolean {
+    return this.role === 'LANDLORD'
+  }
+
+  private storeTokenAndRole(tokenModel: TokenModel): void {
+    this.storageService.store('refreshToken', tokenModel.refreshToken)
+    this.storageService.store('accessToken', tokenModel.accessToken)
+    this.storageService.store('role', tokenModel.role)
+    
+    this.refreshToken = tokenModel.refreshToken
+    this.accessToken = tokenModel.accessToken
+    this.role = tokenModel.role
   }
 
   registerAccount = async (account: AccountModel): Promise<[string | null, string | null]> => {
@@ -44,30 +63,20 @@ export class AuthService {
     if (response.error) {
       return [null, response.error]
     }
-    this.storageService.store('refreshToken', response.data!.refreshToken)
-    this.storageService.store('accessToken', response.data!.accessToken)
-    this.refreshToken = response.data!.refreshToken
-    this.accessToken = response.data!.accessToken
-    this.landlordRole = response.data!.role === 'LANDLORD'
+    
+    this.storeTokenAndRole(response.data!)
     return ["SUCCESS", null]
   }
 
   loginAccount = async (loginModel: LoginModel): Promise<[string | null, string | null]> => {
-    console.log("what?")
     const response = await handleApiCall<TokenModel>(async () => {
       return await axios.post(`${this.baseUrl}/sessions`, loginModel)
     })
     if (response.error) {
-      console.log("in error")
       return [null, response.error]
     }
-    console.log("hello?")
-    this.storageService.store('refreshToken', response.data!.refreshToken)
-    this.storageService.store('accessToken', response.data!.accessToken)
-    this.refreshToken = response.data!.refreshToken
-    this.accessToken = response.data!.accessToken
-    this.landlordRole = response.data!.role === 'LANDLORD'
-    console.log(`access is ${this.refreshToken}`)
+
+    this.storeTokenAndRole(response.data!)
     return ["SUCCESS", null]
   }
 
@@ -77,10 +86,14 @@ export class AuthService {
     })
     if (response.error) {
       this.refreshToken = null
-      this.storageService.delete('refreshToken')
       this.accessToken = null
+      this.role = null
+      this.storageService.delete('refreshToken')
+      this.storageService.delete('accessToken')
+      this.storageService.delete('role')
       return [null, response.error]
     }
+    
     this.accessToken = response.data!.accessToken
     this.storageService.store('accessToken', response.data!.accessToken)
     return [response.data!.accessToken, null]
@@ -88,10 +101,10 @@ export class AuthService {
 
   doAuthHTTPCall = async <T>(callback: () => Promise<AxiosResponse<T>>): Promise<ApiResult<T>> => {
     let response = await handleApiCall<T>(callback)
-    console.log(response)
-    if (response.error === getErrorMessage('EXPIRED_TOKEN')) {
-      console.log("REFRESHING ACCESS TOKEN")
+    if (response.error === getErrorMessage('EXPIRED_TOKEN') || response.error === getErrorMessage('INVALID_TOKEN')) {
+      console.log('Refreshing session')
       await this.refreshSession()
+      console.log('Session refreshed, trying again with new token')
       response = await handleApiCall(callback)
     }
     return response
@@ -106,5 +119,9 @@ export class AuthService {
   logout = (): void => {
     this.storageService.delete('refreshToken')
     this.storageService.delete('accessToken')
+    this.storageService.delete('role')
+    this.refreshToken = null
+    this.accessToken = null
+    this.role = null
   }
 }

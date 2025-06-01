@@ -1,82 +1,123 @@
 <app-menu></app-menu>
-<div class="p-grid p-justify-center p-mt-4">
-  <div class="p-col-12 p-md-10">
-    <p-card
-      header="Solicitudes de Alquiler"
-      subheader="Gestiona las solicitudes de tus propiedades"
-    >
-      <ng-container *ngIf="rentalRequests.length > 0; else noRequests">
-        <p-table
-          [value]="rentalRequests"
-          [paginator]="true"
-          [rows]="5"
-          [responsiveLayout]="'scroll'"
-        >
-          <ng-template pTemplate="header">
-            <tr>
-              <th>Propiedad</th>
-              <th>Usuario</th>
-              <th>Fecha Inicio</th>
-              <th>Fecha Fin</th>
-              <th>Precio</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </ng-template>
 
-          <ng-template pTemplate="body" let-request>
-            <tr>
-              <td>{{ request.propertyName }}</td>
-              <td>{{ request.userName }}</td>
-              <td>{{ request.startDate | date }}</td>
-              <td>{{ request.endDate | date }}</td>
-              <td>{{ request.price | currency : "USD" }}</td>
-              <td>
-                <p-tag
-                  [value]="request.status"
-                  [severity]="
-                    request.status === 'PENDING'
-                      ? 'info'
-                      : request.status === 'ACCEPTED'
-                      ? 'success'
-                      : 'danger'
-                  "
-                ></p-tag>
-              </td>
-              <td>
-                <button
-                  *ngIf="request.status === 'PENDING'"
-                  pButton
-                  type="button"
-                  label="Aceptar"
-                  icon="pi pi-check"
-                  class="p-button-success p-mr-2"
-                  (click)="acceptRequest(request.id)"
-                ></button>
+<div class="min-h-screen bg-slate-200 py-8 px-4 sm:px-6 lg:px-8 content-center">
+  <div class="max-w-7xl mx-auto">
+    <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+      <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+        <h1 class="text-xl font-semibold text-gray-900" data-cy="page-title">Solicitudes de alquiler</h1>
+        <p class="mt-1 text-sm text-gray-500" data-cy="page-description">Maneja tus solicitudes de alquiler</p>
+      </div>
 
-                <button
-                  *ngIf="request.status === 'COMPLETED'"
-                  pButton
-                  type="button"
-                  label="Reseñar"
-                  icon="pi pi-star"
-                  class="p-button-warning"
-                  (click)="rate(request.id)"
-                ></button>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </ng-container>
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="flex justify-center items-center p-8" data-cy="loading-spinner">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+      </div>
 
-      <ng-template #noRequests>
-        <div class="p-text-center p-mt-5 p-mb-5">
-          <p class="p-text-secondary">
-            No tienes solicitudes de alquiler en este momento.
-          </p>
+      <!-- Error Message -->
+      <div *ngIf="error" class="p-4 bg-red-50 border-l-4 border-red-400" data-cy="error-message">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm text-red-700">{{ error }}</p>
+          </div>
         </div>
-      </ng-template>
-    </p-card>
+      </div>
+
+      <!-- Success Message -->
+      <div *ngIf="success" class="p-4 bg-green-50 border-l-4 border-green-400" data-cy="success-message">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm text-green-700">{{ success }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Requests -->
+      <div *ngIf="!isLoading && rentalRequests.length === 0" class="p-8 text-center" data-cy="empty-state">
+        <p class="text-gray-500">No se encontraron solicitudes de alquiler</p>
+      </div>
+
+      <!-- Requests List -->
+      <div *ngIf="!isLoading && rentalRequests.length > 0" class="overflow-x-auto" data-cy="requests-table">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-cy="header-property">Propiedad</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-cy="header-user">Usuario</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-cy="header-dates">Fechas</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-cy="header-price">Precio</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-cy="header-status">Estado</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-cy="header-actions">Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let request of rentalRequests" [attr.data-cy]="'request-row-' + request.id">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-gray-900">{{ request.propertyName }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">{{ request.userName }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">
+                  {{ request.startDate | date:'shortDate' }} - {{ request.endDate | date:'shortDate' }}
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">{{ request.price | currency }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full" 
+                      [ngClass]="getStatusColor(request.status)"
+                      [attr.data-cy]="'status-badge-' + request.id">
+                  {{ request.status }}
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <div class="flex space-x-2">
+                  <!-- Actions for REQUESTED status -->
+                  <ng-container *ngIf="request.status === 'REQUESTED'">
+                    <button 
+                      (click)="handleAcceptRequest(request.id)"
+                      class="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                      [attr.data-cy]="'accept-button-' + request.id"
+                    >
+                      Aceptar
+                    </button>
+                    <button 
+                      (click)="handleDenyRequest(request.id)"
+                      class="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                      [attr.data-cy]="'deny-button-' + request.id"
+                    >
+                      Denegar
+                    </button>
+                  </ng-container>
+
+                  <!-- Rate button for COMPLETED status -->
+                  <button 
+                    *ngIf="request.status === 'COMPLETED'"
+                    (click)="navigateToRating(request.id)"
+                    class="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                    [attr.data-cy]="'rate-button-' + request.id"
+                  >
+                    Calificar
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
 

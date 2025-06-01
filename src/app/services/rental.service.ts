@@ -108,13 +108,7 @@ export class RentalService {
       return [null, response.error]
     }
     return [response.data!, null]
-    /*await new Promise(resolve => setTimeout(resolve, 500));
 
-    if (!rentalRequest.startDate || !rentalRequest.endDate || !rentalRequest.nGuests) {
-      return [null, "Missing required rental request data."];
-    }
-    const mockRequestId = `mock-request-${Date.now()}`;
-    return [mockRequestId, null];*/
   }
 
   async createRating(requestId: string, ratingModel: CreateRatingModel) : Promise<[string | null, string | null]>{

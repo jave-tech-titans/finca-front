@@ -9,7 +9,7 @@ export class PropertyModel{
         public hasPool: boolean,
         public isPetFriendly:boolean,
         public numberBathrooms:number,
-        public numberROoms:number,
+        public numberRooms:number,
         public nightPrice : number,
         public ownerId: string,
         public rating:number,

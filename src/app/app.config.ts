@@ -20,7 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()), 
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes), provideClientHydration(withEventReplay()),
-    { provide: BASE_URL, useValue: 'http://localhost:9091/api/v1' },
+    { provide: BASE_URL, useValue: 'http://finca.javeriana.co/api/v1' },
   ]
 };
 

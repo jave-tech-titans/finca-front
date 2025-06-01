@@ -26,11 +26,11 @@
     <div *ngIf="!isLoading && !error && rentalRequest" class="bg-white shadow-xl rounded-lg overflow-hidden">
       <!-- Request Information -->
       <div class="px-6 py-8 border-b border-gray-200">
-        <h2 class="text-2xl font-bold text-gray-900 mb-6">Payment Details</h2>
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Detalles de pago</h2>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 class="text-sm font-medium text-gray-500">Property</h3>
+            <h3 class="text-sm font-medium text-gray-500">Propiedad</h3>
             <p class="mt-1 text-lg font-semibold text-gray-900">{{ rentalRequest.propertyName }}</p>
           </div>
           
@@ -52,7 +52,7 @@
           </div>
 
           <div class="md:col-span-2">
-            <h3 class="text-sm font-medium text-gray-500">Total Amount</h3>
+            <h3 class="text-sm font-medium text-gray-500">Valor total</h3>
             <p class="mt-1 text-2xl font-bold text-blue-600">${{ rentalRequest.price }}</p>
           </div>
         </div>
@@ -62,7 +62,7 @@
       <form #paymentForm="ngForm" (ngSubmit)="handlePayment(paymentForm)" class="px-6 py-8">
         <div class="space-y-6">
           <div>
-            <label for="bank" class="block text-sm font-medium text-gray-700">Select Bank</label>
+            <label for="bank" class="block text-sm font-medium text-gray-700">Selecciona tu banco</label>
             <div class="mt-2">
               <select
                 id="bank"
@@ -72,14 +72,14 @@
                 class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
                 [class.border-red-300]="paymentForm.submitted && !selectedBank"
               >
-                <option value="">Select a bank...</option>
+                <option value="">Selecciona un banco...</option>
                 <option *ngFor="let bank of banks" [value]="bank.name">
                   {{ bank.name }}
                 </option>
               </select>
             </div>
             <p *ngIf="paymentForm.submitted && !selectedBank" class="mt-2 text-sm text-red-600">
-              Please select a bank
+              Por favor, selecciona un banco
             </p>
           </div>
 
@@ -89,8 +89,8 @@
               [disabled]="isLoading"
               class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <span *ngIf="!isLoading">Complete Payment</span>
-              <span *ngIf="isLoading">Processing...</span>
+              <span *ngIf="!isLoading">Completar pago</span>
+              <span *ngIf="isLoading">Procesando...</span>
             </button>
           </div>
         </div>

@@ -23,7 +23,7 @@ export class MenuComponent {
   }
 
   ngOnInit() {
-    if(this.authService.landlordRole){
+    if(this.authService.isLandlord){
       this.links = [
         {
           label: "Principal",

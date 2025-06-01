@@ -1,51 +1,64 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PropertyTileModel } from '../../models/PropertyTileModel';
 import { PropertiesService } from '../../services/properties.service';
 import { Router } from '@angular/router';
-import { PaginatorModule, PaginatorState } from 'primeng/paginator';
-import { managePropertyRoute } from '../../app.routes';
-import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MenuComponent } from '../shared/menu/menu.component';
 import { PropertiesListComponent } from '../shared/properties-list/properties-list.component';
+import { managePropertyRoute, createPropertyRoute } from '../../app.routes';
 
 @Component({
   selector: 'app-my-properties',
-  imports: [PropertiesListComponent, MenuComponent, FormsModule, PaginatorModule],
+  standalone: true,
+  imports: [CommonModule, PropertiesListComponent, MenuComponent],
   templateUrl: './my-properties.component.html',
-  styleUrl: './my-properties.component.css'
 })
-export class MyPropertiesComponent {
-  properties: Array<PropertyTileModel> = []
-  page:number = 1
+export class MyPropertiesComponent implements OnInit {
+  properties: PropertyTileModel[] = [];
+  currentPage: number = 1;
+  isLoading: boolean = false;
+  error: string | null = null;
+
   constructor(
     private service: PropertiesService,
-    private router: Router,
-  ){
-    this.selectProperty = this.selectProperty.bind(this);
+    private router: Router
+  ) {
+    this.handlePropertyClick = this.handlePropertyClick.bind(this);
   }
 
-  ngOnInit() {
-    this.service.getMyProperties(1).then(([props, err]) => {
+  async ngOnInit() {
+    await this.loadProperties();
+  }
+
+  private async loadProperties() {
+    try {
+      this.isLoading = true;
+      this.error = null;
+      const [props, error] = await this.service.getMyProperties(this.currentPage);
+      
+      if (error) {
+        this.error = error;
+        return;
+      }
+
       this.properties = props ?? [];
-      console.log(err)
-    });
-  }
-  
-  getProperties(){
-    return this.properties
-  }
-
-  onPageChange=(event: PaginatorState)=>{
-    this.page = event.page ?? 1
-    this.properties = []
-    this.page +=1
-    this.service.getMyProperties(this.page).then(([props, err]) => {
-      this.properties = props ?? [];
-      this.properties.forEach((p)=>console.log("image is " + p.imageUrl))
-    });
+    } catch (err) {
+      this.error = 'Failed to load properties';
+    } finally {
+      this.isLoading = false;
+    }
   }
 
-  selectProperty=(property: PropertyTileModel)=>{
-    this.router.navigate([`/${managePropertyRoute}`, property.id])
+  async handlePageChange(page: number) {
+    this.currentPage = page;
+    await this.loadProperties();
+  }
+
+  handlePropertyClick(property: PropertyTileModel) {
+    this.router.navigate([`/${managePropertyRoute}`, property.id]);
+  }
+
+  handleCreateProperty() {
+    this.router.navigate([`/${createPropertyRoute}`]);
   }
 }
