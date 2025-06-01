@@ -8,17 +8,20 @@ import { MenuComponent } from "../shared/menu/menu.component";
 import { FormsModule } from '@angular/forms';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { rentPropertyRoute } from '../../app.routes';
-
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-search-properties',
-  imports: [PropertiesListComponent, MenuComponent, FormsModule, PaginatorModule],
+  imports: [PropertiesListComponent, MenuComponent, FormsModule, PaginatorModule, CommonModule],
   templateUrl: './search-properties.component.html',
-  styleUrl: './search-properties.component.css'
+  standalone: true
 })
 export class SearchPropertiesComponent {
   filters: PropertiesFilter = new PropertiesFilter(null, null, null, null, null, null, null);
-  properties: Array<PropertyTileModel> = []
+  properties: Array<PropertyTileModel> = [];
+  loading: boolean = false;
+  error: string | null = null;
+
   constructor(
     private service: PropertiesService,
     private router: Router,
@@ -27,33 +30,59 @@ export class SearchPropertiesComponent {
   }
 
   ngOnInit() {
-    this.service.getProperties(this.filters).then(([props, err]) => {
-      this.properties = props ?? [];
-      console.log(err)
-    });
+    this.fetchProperties();
   }
   
-  getProperties(){
-    return this.properties
-  }
+  private async fetchProperties() {
+    try {
+      this.loading = true;
+      this.error = null;
+      const [props, err] = await this.service.getProperties(this.filters);
+      
+      if (err) {
+        this.error = err;
+        return;
+      }
 
-  applyFilters= ()=>{
-    this.properties = []
-    if (this.filters.page != null){
-      this.filters.page +=1
-    }
-    this.service.getProperties(this.filters).then(([props, err]) => {
       this.properties = props ?? [];
-      this.properties.forEach((p)=>console.log("image is " + p.imageUrl))
-    });
+    } catch (error) {
+      this.error = 'An unexpected error occurred while fetching properties';
+    } finally {
+      this.loading = false;
+    }
   }
 
-  onPageChange=(event: PaginatorState)=>{
-    this.filters.page = event.page ?? 1
-    this.applyFilters()
+  applyFilters = async () => {
+    try {
+      this.loading = true;
+      this.error = null;
+      this.properties = [];
+      
+      if (this.filters.page != null) {
+        this.filters.page += 1;
+      }
+
+      const [props, err] = await this.service.getProperties(this.filters);
+      
+      if (err) {
+        this.error = err;
+        return;
+      }
+
+      this.properties = props ?? [];
+    } catch (error) {
+      this.error = 'An unexpected error occurred while applying filters';
+    } finally {
+      this.loading = false;
+    }
   }
 
-  selectProperty=(property: PropertyTileModel)=>{
-    this.router.navigate([`/${rentPropertyRoute}`, property.id])
+  onPageChange = (event: PaginatorState) => {
+    this.filters.page = event.page ?? 1;
+    this.applyFilters();
+  }
+
+  selectProperty = (property: PropertyTileModel) => {
+    this.router.navigate([`/${rentPropertyRoute}`, property.id]);
   }
 } 

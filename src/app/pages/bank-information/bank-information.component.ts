@@ -1,19 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderListModule } from 'primeng/orderlist';
-import { InputTextModule } from 'primeng/inputtext';
-import { ToastModule } from 'primeng/toast';
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
-import { FloatLabelModule } from 'primeng/floatlabel';
-import { MessageModule } from 'primeng/message';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FormsModule, NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PaymentService } from '../../services/payment.service';
-import { ActivatedRoute } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { NgForm } from '@angular/forms';
-import { CreatePaymentModel } from '../../models/CreatePaymentModel'; 
+import { RentalService } from '../../services/rental.service';
+import { CreatePaymentModel } from '../../models/CreatePaymentModel';
+import { RentalRequestModel } from '../../models/RentalRequestModel';
+import { MenuComponent } from '../shared/menu/menu.component';
+
 interface Bank {
   id: string;
   name: string;
@@ -22,73 +16,119 @@ interface Bank {
 @Component({
   selector: 'app-bank-information',
   standalone: true,
-  imports: [
-    OrderListModule,InputTextModule,ToastModule,CardModule,ButtonModule,FloatLabelModule,MessageModule,ProgressSpinnerModule,FormsModule, CommonModule
-  ],
+  imports: [CommonModule, FormsModule, MenuComponent],
   templateUrl: './bank-information.component.html',
-  styleUrls: ['./bank-information.component.css'],
-  providers: [MessageService]
 })
 export class BankInformationComponent implements OnInit {
   banks: Bank[] = [];
-  selectedBank: Bank [] = [];
+  selectedBank: string = '';
   paymentModel: CreatePaymentModel = new CreatePaymentModel('', 0);
+  rentalRequest: RentalRequestModel | null = null;
   isLoading = false;
+  error: string | null = null;
   private requestId: string;
 
   constructor(
     private paymentService: PaymentService,
+    private rentalService: RentalService,
     private route: ActivatedRoute,
-    private messageService: MessageService
+    private router: Router
   ) {
-    //  la ruta
-    this.requestId = this.route.snapshot.paramMap.get('requestId') || 'default-id';
-  }
-
-  ngOnInit(): void {
-    this.loadBanks();
-  }
-
-  async loadBanks(): Promise<void> {
-    this.isLoading = true;
-    this.messageService.add({ severity: 'info', summary: 'Cargando', detail: 'Cargando lista de bancos...' });
-
-    const [banks, error] = await this.paymentService.getBanks();
-    this.isLoading = false;
-
-    if (error) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
-    } else {
-      this.banks = banks!.map((name, index) => ({ id: `bank-${index}`, name }));
+    this.requestId = this.route.snapshot.paramMap.get('requestId') || '';
+    if (!this.requestId) {
+      this.error = 'No request ID provided';
     }
   }
 
-  async pay(form: NgForm): Promise<void> {
+  async ngOnInit(): Promise<void> {
+    if (!this.requestId) return;
+    
+    await Promise.all([
+      this.loadBanks(),
+      this.loadRentalRequest()
+    ]);
+  }
+
+  private async loadBanks(): Promise<void> {
+    try {
+      this.isLoading = true;
+      const [banks, error] = await this.paymentService.getBanks();
+      
+      if (error) {
+        this.error = error;
+        return;
+      }
+
+      if (banks) {
+        this.banks = banks.map((name, index) => ({
+          id: `bank-${index}`,
+          name
+        }));
+      }
+    } catch (err) {
+      this.error = 'Failed to load banks';
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  private async loadRentalRequest(): Promise<void> {
+    try {
+      this.isLoading = true;
+      const [requests, error] = await this.rentalService.getUserRentalRequests(1);
+      
+      if (error) {
+        this.error = error;
+        return;
+      }
+
+      if (requests) {
+        this.rentalRequest = requests.find(req => req.id === this.requestId) || null;
+        if (!this.rentalRequest) {
+          this.error = 'Rental request not found';
+        }
+      }
+    } catch (err) {
+      this.error = 'Failed to load rental request';
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  formatDate(date: string): string {
+    return new Date(date).toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  }
+
+  async handlePayment(form: NgForm): Promise<void> {
     if (form.invalid || !this.selectedBank) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe ingresar un número de cuenta y seleccionar un banco' });
+      this.error = 'Please select a bank';
       return;
     }
-    //validar longitud del numero de cuenta de 10 a 20 
-    //const accountNumberLength = this.paymentModel.accountNumber.length;
-    //if (accountNumberLength < 10 || accountNumberLength > 20) {
-    //  this.messageService.add({ severity: 'error', summary: 'Error', detail: 'El número de cuenta debe tener entre 10 y 20 dígitos' });
-    //  return;
-    //}
 
-    this.paymentModel.bank = this.selectedBank[0].name;
-    this.isLoading = true;
-    this.messageService.add({ severity: 'info', summary: 'Procesando', detail: 'Procesando pago...' });
+    try {
+      this.isLoading = true;
+      this.error = null;
+      
+      this.paymentModel.bank = this.selectedBank;
+      this.paymentModel.accountNumber = 0; // Not needed as per your requirement
 
-    const [result, error] = await this.paymentService.paySchedule(this.requestId, this.paymentModel);
-    this.isLoading = false;
+      const [result, error] = await this.paymentService.paySchedule(this.requestId, this.paymentModel);
 
-    if (error) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
-    } else {
-      this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Pago realizado con éxito' });
-      form.resetForm();
-      this.paymentModel = new CreatePaymentModel('', 0);
-      this.selectedBank = [];
+      if (error) {
+        this.error = error;
+        return;
+      }
+
+      // Navigate to user requests on success
+      await this.router.navigate(['/userrequests']);
+    } catch (err) {
+      this.error = 'Payment processing failed';
+    } finally {
+      this.isLoading = false;
     }
   }
 }

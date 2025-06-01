@@ -4,7 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-bottom',
   imports: [],
   templateUrl: './bottom.component.html',
-  styleUrl: './bottom.component.css'
 })
 export class BottomComponent {
 

@@ -88,7 +88,9 @@ export class AuthService {
 
   doAuthHTTPCall = async <T>(callback: () => Promise<AxiosResponse<T>>): Promise<ApiResult<T>> => {
     let response = await handleApiCall<T>(callback)
+    console.log(response)
     if (response.error === getErrorMessage('EXPIRED_TOKEN')) {
+      console.log("REFRESHING ACCESS TOKEN")
       await this.refreshSession()
       response = await handleApiCall(callback)
     }

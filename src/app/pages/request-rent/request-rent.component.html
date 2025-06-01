@@ -1,65 +1,181 @@
 <app-menu></app-menu>
 <p-toast></p-toast>
 
-<div class="page-layout">
-
-  <div class="form-section">
-    <form [formGroup]="rentRequestForm" (ngSubmit)="requestRent()" class="card">
-      <h1 class="form-title">Solicitar Renta</h1>
-
-      <div class="date-group">
-        <div class="date-fields">
-          <label for="dateStart" class="field-label">Fecha Inicio</label>
-          <p-calendar id="dateStart" formControlName="dateStart"></p-calendar>
+<div class="min-h-screen bg-slate-200 pt-20 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Error States -->
+        <div *ngIf="error.property" class="mb-8 bg-red-50 border border-red-200 rounded-xl p-4">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-red-800">Error loading property</h3>
+                    <div class="mt-2 text-sm text-red-700">{{ error.property }}</div>
+                </div>
+            </div>
         </div>
-      
-        <div class="date-fields">
-          <label for="dateEnd" class="field-label">Fecha Fin</label>
-          <p-calendar id="dateEnd" formControlName="dateEnd"></p-calendar>
+
+        <!-- Loading State -->
+        <div *ngIf="loading.property" class="flex justify-center items-center py-12">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
         </div>
-      </div>
-      
 
-      <div class="guests-group">
-        <label for="numPeople" class="field-label">Huéspedes</label>
-        <p-inputNumber
-          id="numPeople"
-          formControlName="numPeople"
-          [showButtons]="true"
-          [min]="1"
-          buttonLayout="vertical"
-          spinnerMode="vertical">
-        </p-inputNumber>
-      </div>
-      
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" *ngIf="!loading.property && !error.property">
+            <!-- Rental Request Form -->
+            <div class="bg-white rounded-2xl shadow-lg p-8">
+                <form [formGroup]="rentRequestForm" (ngSubmit)="requestRent()" class="space-y-6">
+                    <h1 class="text-2xl font-bold text-gray-900 mb-6">Solicitar Renta</h1>
 
-      <div class="detailsContainer">
-        <p><span class="titleBold">Propiedad:</span> {{ property.name }}</p>
-        <p><span class="titleBold">País:</span> {{ property.department }}</p>
-        <p><span class="titleBold">Descripción:</span> {{ property.description }}</p>
-        <p><span class="titleBold">Precio Total:</span> {{ calculatePrice() }}</p>
-      </div>
+                    <!-- Submission Error -->
+                    <div *ngIf="error.submission" class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                        <p class="text-sm text-red-700">{{ error.submission }}</p>
+                    </div>
 
-      <button type="submit" class="submit-button">Solicitar Renta</button>
-    </form>
-  </div>
+                    <!-- Date Selection -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label for="dateStart" class="block text-sm font-medium text-gray-700">
+                                Fecha Inicio
+                            </label>
+                            <p-calendar 
+                                id="dateStart" 
+                                formControlName="dateStart"
+                                styleClass="w-full"
+                                [class.ng-invalid]="rentRequestForm.get('dateStart')?.invalid && rentRequestForm.get('dateStart')?.touched"
+                            ></p-calendar>
+                            <p *ngIf="rentRequestForm.get('dateStart')?.invalid && rentRequestForm.get('dateStart')?.touched" 
+                               class="text-sm text-red-600">Start date is required</p>
+                        </div>
 
-  <div class="schedules-section">
-    <h1 class="section-title">Fechas Ocupadas</h1>
-    <div class="filter-bar">
-      <p-dropdown [options]="availableYears" [(ngModel)]="selectedYear" (onChange)="onFilterChange()" placeholder="Año"></p-dropdown>
-      <p-dropdown [options]="availableMonths" [(ngModel)]="selectedMonth" (onChange)="onFilterChange()" placeholder="Mes"></p-dropdown>
+                        <div class="space-y-2">
+                            <label for="dateEnd" class="block text-sm font-medium text-gray-700">
+                                Fecha Fin
+                            </label>
+                            <p-calendar 
+                                id="dateEnd" 
+                                formControlName="dateEnd"
+                                styleClass="w-full"
+                                [class.ng-invalid]="rentRequestForm.get('dateEnd')?.invalid && rentRequestForm.get('dateEnd')?.touched"
+                            ></p-calendar>
+                            <p *ngIf="rentRequestForm.get('dateEnd')?.invalid && rentRequestForm.get('dateEnd')?.touched" 
+                               class="text-sm text-red-600">End date is required</p>
+                        </div>
+                    </div>
+
+                    <!-- Number of Guests -->
+                    <div class="space-y-2">
+                        <label for="numPeople" class="block text-sm font-medium text-gray-700">
+                            Huéspedes
+                        </label>
+                        <p-inputNumber
+                            id="numPeople"
+                            formControlName="numPeople"
+                            [showButtons]="true"
+                            [min]="1"
+                            buttonLayout="vertical"
+                            spinnerMode="vertical"
+                            styleClass="w-full"
+                            [class.ng-invalid]="rentRequestForm.get('numPeople')?.invalid && rentRequestForm.get('numPeople')?.touched"
+                        ></p-inputNumber>
+                        <p *ngIf="rentRequestForm.get('numPeople')?.invalid && rentRequestForm.get('numPeople')?.touched" 
+                           class="text-sm text-red-600">At least one guest is required</p>
+                    </div>
+
+                    <!-- Property Details -->
+                    <div class="bg-gray-50 rounded-lg p-6 space-y-3">
+                        <div class="flex">
+                            <span class="font-semibold text-gray-700 w-28">Propiedad:</span>
+                            <span class="text-gray-600">{{ property.name }}</span>
+                        </div>
+                        <div class="flex">
+                            <span class="font-semibold text-gray-700 w-28">País:</span>
+                            <span class="text-gray-600">{{ property.department }}</span>
+                        </div>
+                        <div class="flex">
+                            <span class="font-semibold text-gray-700 w-28">Descripción:</span>
+                            <span class="text-gray-600">{{ property.description }}</span>
+                        </div>
+                        <div class="flex">
+                            <span class="font-semibold text-gray-700 w-28">Precio Total:</span>
+                            <span class="text-green-600 font-medium">{{ calculatePrice() }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button 
+                        type="submit" 
+                        [disabled]="loading.submission || rentRequestForm.invalid"
+                        class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        <span *ngIf="!loading.submission">Solicitar Renta</span>
+                        <span *ngIf="loading.submission" class="flex items-center justify-center">
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Procesando...
+                        </span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Occupied Dates Section -->
+            <div class="bg-white rounded-2xl shadow-lg p-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">Fechas Ocupadas</h2>
+
+                <!-- Schedule Error -->
+                <div *ngIf="error.schedules" class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                    <p class="text-sm text-red-700">{{ error.schedules }}</p>
+                </div>
+                
+                <!-- Filter Dropdowns -->
+                <div class="flex space-x-4 mb-6">
+                    <p-dropdown 
+                        [options]="availableYears" 
+                        [(ngModel)]="selectedYear" 
+                        (onChange)="onFilterChange()" 
+                        placeholder="Año"
+                        styleClass="w-full"
+                    ></p-dropdown>
+                    <p-dropdown 
+                        [options]="availableMonths" 
+                        [(ngModel)]="selectedMonth" 
+                        (onChange)="onFilterChange()" 
+                        placeholder="Mes"
+                        styleClass="w-full"
+                    ></p-dropdown>
+                </div>
+
+                <!-- Loading State for Schedules -->
+                <div *ngIf="loading.schedules" class="flex justify-center items-center py-8">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                </div>
+
+                <!-- Schedule Cards -->
+                <div *ngIf="!loading.schedules" class="space-y-6">
+                    <div *ngFor="let month of scheduleMonths" class="space-y-4">
+                        <h3 class="text-lg font-semibold text-gray-800">{{ month }}</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div 
+                                *ngFor="let schedule of schedulesByMonth[month]" 
+                                class="bg-gray-50 rounded-lg p-4 space-y-2"
+                            >
+                                <p class="flex items-center text-gray-700">
+                                    <span class="font-medium mr-2">Inicio:</span>
+                                    {{ schedule.startDate }}
+                                </p>
+                                <p class="flex items-center text-gray-700">
+                                    <span class="font-medium mr-2">Fin:</span>
+                                    {{ schedule.endDate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div *ngFor="let month of scheduleMonths">
-      <h3>{{ month }}</h3>
-      <div class="schedule-cards">
-        <div *ngFor="let schedule of schedulesByMonth[month]" class="schedule-card">
-          <p><strong>Inicio:</strong> {{ schedule.startDate }}</p>
-          <p><strong>Fin:</strong> {{ schedule.endDate }}</p>
-        </div>
-      </div>
-    </div>      
-  </div>
-
 </div>

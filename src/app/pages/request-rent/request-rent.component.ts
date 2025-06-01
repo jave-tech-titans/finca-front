@@ -4,7 +4,7 @@ import { MenuComponent } from "../shared/menu/menu.component";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CreateRentalRequestModel } from '../../models/CreateRentalRequestModel';
 import { RentalRequestModel } from '../../models/RentalRequestModel';
 import { PropertyModel } from '../../models/PropertyModel';
@@ -13,25 +13,35 @@ import { PropertiesService } from '../../services/properties.service';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CalendarModule } from 'primeng/calendar';
 import { RentalService } from '../../services/rental.service';
-
 import { ScheduleModel } from '../../models/ScheduleModel';
 import { format } from 'date-fns';
 import { DropdownModule } from 'primeng/dropdown';
 import { homepageRoute } from '../../app.routes';
 
-
 @Component({
   selector: 'app-request-rent',
+  standalone: true,
   imports: [ToastModule, MenuComponent, CommonModule, FormsModule, ReactiveFormsModule, InputNumberModule, CalendarModule, DropdownModule],
   templateUrl: './request-rent.component.html',
-  styleUrl: './request-rent.component.css',
   providers: [MessageService]
 })
 export class RequestRentComponent {
+  loading = {
+    property: false,
+    schedules: false,
+    submission: false
+  };
+
+  error = {
+    property: null as string | null,
+    schedules: null as string | null,
+    submission: null as string | null
+  };
+
   rentRequestForm = new FormGroup({
-    dateStart: new FormControl(''),
-    dateEnd: new FormControl(''),
-    numPeople: new FormControl(''),
+    dateStart: new FormControl('', [Validators.required]),
+    dateEnd: new FormControl('', [Validators.required]),
+    numPeople: new FormControl('', [Validators.required, Validators.min(1)]),
   });
 
   rentRequest: CreateRentalRequestModel = {} as CreateRentalRequestModel;
@@ -64,24 +74,58 @@ export class RequestRentComponent {
   }
 
   async loadPropertyDetail() {
-    const id = this.route.snapshot.paramMap.get('id') ?? '';
-    const [prop, err] = await this.propsService.getFullProperty(id);
-    if (prop) {
-      this.property = prop;
-      this.loadSchedules(); 
+    try {
+      this.loading.property = true;
+      this.error.property = null;
+      
+      const id = this.route.snapshot.paramMap.get('id');
+      if (!id) {
+        this.error.property = 'No property ID provided';
+        return;
+      }
+
+      const [prop, err] = await this.propsService.getFullProperty(id);
+      if (err) {
+        this.error.property = err;
+        return;
+      }
+
+      if (prop) {
+        this.property = prop;
+        await this.loadSchedules();
+      }
+    } catch (error) {
+      this.error.property = 'An unexpected error occurred while loading the property';
+    } finally {
+      this.loading.property = false;
     }
   }
 
   async loadSchedules() {
-    if (!this.property?.id) return;
-    const [schedules, err] = await this.rentService.getPropertySchedules(
-      this.property.id,
-      this.selectedYear,
-      this.selectedMonth ?? -1
-    );
+    try {
+      if (!this.property?.id) return;
+      
+      this.loading.schedules = true;
+      this.error.schedules = null;
 
-    if (schedules) {
-      this.schedulesByMonth = this.groupSchedulesByMonth(schedules);
+      const [schedules, err] = await this.rentService.getPropertySchedules(
+        this.property.id,
+        this.selectedYear,
+        this.selectedMonth ?? -1
+      );
+
+      if (err) {
+        this.error.schedules = err;
+        return;
+      }
+
+      if (schedules) {
+        this.schedulesByMonth = this.groupSchedulesByMonth(schedules);
+      }
+    } catch (error) {
+      this.error.schedules = 'An unexpected error occurred while loading schedules';
+    } finally {
+      this.loading.schedules = false;
     }
   }
 
@@ -100,71 +144,82 @@ export class RequestRentComponent {
     this.loadSchedules();
   }
 
-  async requestRent(){
-    const dateStartControl = this.rentRequestForm.get('dateStart');
-    const dateEndControl = this.rentRequestForm.get('dateEnd');
-    const numPeopleControl = this.rentRequestForm.get('numPeople');
+  async requestRent() {
+    if (this.loading.submission) return;
 
-    const dateStart = dateStartControl && dateStartControl.value
-        ? new Date(dateStartControl.value).toISOString().slice(0, 10) : null;
-    const dateEnd = dateEndControl && dateEndControl.value
-        ? new Date(dateEndControl.value).toISOString().slice(0, 10) : null;
-    const numPeople = numPeopleControl && numPeopleControl.value ? +numPeopleControl.value : 0;
+    try {
+      if (this.rentRequestForm.invalid) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Please fill in all required fields correctly',
+          life: 4000
+        });
+        return;
+      }
 
-    const now = new Date();
+      const dateStart = this.rentRequestForm.get('dateStart')?.value;
+      const dateEnd = this.rentRequestForm.get('dateEnd')?.value;
+      const numPeople = this.rentRequestForm.get('numPeople')?.value;
 
-    if (!dateStart || !dateEnd || !numPeople) {
+      if (!dateStart || !dateEnd || !numPeople) {
+        this.error.submission = 'All fields are required';
+        return;
+      }
+
+      const startDate = new Date(dateStart).toISOString().slice(0, 10);
+      const endDate = new Date(dateEnd).toISOString().slice(0, 10);
+      const guests = +numPeople;
+
+      if (guests <= 0) {
+        this.error.submission = 'At least one guest is required';
+        return;
+      }
+
+      this.loading.submission = true;
+      this.error.submission = null;
+
       this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Debes llenar todos los campos',
-        life: 4000
-      })
-      return
-    }
+        severity: 'info',
+        summary: 'Processing',
+        detail: 'Submitting your rental request...',
+        life: 1000
+      });
 
-    if (numPeople <= 0) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Debe haber al menos 1 persona',
-        life: 4000
-      })
-      return
-    }
+      const rentRequest = new CreateRentalRequestModel(startDate, endDate, guests);
+      const [ok, error] = await this.rentService.createRentalRequest(this.property.id, rentRequest);
 
-    this.rentRequest = new CreateRentalRequestModel(
-      dateStart,
-      dateEnd,
-      numPeople
-    );
+      if (error) {
+        this.error.submission = error;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: error,
+          life: 4000
+        });
+        return;
+      }
 
-    this.messageService.add({
-      severity: 'warn',
-      summary: 'Procesando',
-      detail: 'Estamos pidiendo la renta',
-      life: 1000
-    })
-
-    const [ok, error] = await this.rentService.createRentalRequest(this.property.id ,this.rentRequest)
-    if(error){
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: error,
-        life: 4000
-      })
-      return
-    }else{
       this.messageService.add({
         severity: 'success',
-        summary: 'Exito',
-        detail: 'Peticion creada',
+        summary: 'Success',
+        detail: 'Rental request created successfully',
         life: 4000
-      })
+      });
+
+      await new Promise(f => setTimeout(f, 2000));
+      await this.router.navigate([`/${homepageRoute}`]);
+    } catch (error) {
+      this.error.submission = 'An unexpected error occurred while submitting your request';
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: this.error.submission,
+        life: 4000
+      });
+    } finally {
+      this.loading.submission = false;
     }
-    await new Promise(f => setTimeout(f, 2000));
-    this.router.navigate([`/${homepageRoute}`])
   }
 
   calculatePrice(): string {
@@ -178,5 +233,4 @@ export class RequestRentComponent {
   get scheduleMonths(): string[] {
     return Object.keys(this.schedulesByMonth);
   }
-  
 }

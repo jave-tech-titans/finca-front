@@ -1,44 +1,103 @@
 <p-toast></p-toast>
-<div class="panel">
+<div class="min-h-screen flex items-center justify-center bg-slate-200 py-12 px-4 sm:px-6 lg:px-8">
     <p-card 
-        [style]="{ width: '35rem', overflow: 'hidden', backgroundColor: '#f9f9f9', borderRadius: '1rem', boxShadow: '0 4px 24px rgba(0, 0, 0, 0.08)' }" 
-        styleClass="text-gray-800"
+        styleClass="bg-white shadow-2xl rounded-2xl"
+        [style]="{ width: '35rem' }"
     >   
-        <div class="panel-content">
-            <h1 style="color: #1e1e1e;">Regístrate</h1>
+        <div class="flex flex-col space-y-6 p-8">
+            <h1 class="text-3xl font-bold text-gray-900 text-center">Regístrate</h1>
 
-            <p-floatlabel style="margin-top: 8%; width: 100%;">
-                <input style="width: 100%; border: 1px solid #ccc; border-radius: 0.5rem; padding: 0.7rem; font-size: 1rem;" pInputText id="name" [(ngModel)]="names" autocomplete="off" />
-                <label for="email" style="color: #555;">Nombres</label>
-            </p-floatlabel>
-
-            <p-floatlabel style="margin-top: 8%; width: 100%;">
-                <input style="width: 100%; border: 1px solid #ccc; border-radius: 0.5rem; padding: 0.7rem; font-size: 1rem;" pInputText id="lastNames" [(ngModel)]="lastNames" autocomplete="off" />
-                <label for="email" style="color: #555;">Apellidos</label>
-            </p-floatlabel>
-
-            <p-floatlabel style="margin-top: 8%; width: 100%;">
-                <input style="width: 100%; border: 1px solid #ccc; border-radius: 0.5rem; padding: 0.7rem; font-size: 1rem;" pInputText id="email" [(ngModel)]="email" autocomplete="off" />
-                <label for="email" style="color: #555;">Correo electrónico</label>
-            </p-floatlabel>
-
-            <p-floatlabel style="margin-top: 8%; width: 100%;">
-                <input style="width: 100%; border: 1px solid #ccc; border-radius: 0.5rem; padding: 0.7rem; font-size: 1rem;" pInputText id="password" [(ngModel)]="password" autocomplete="off" />
-                <label for="password" style="color: #555;">Contraseña</label>
-            </p-floatlabel>
-
-            <p-floatlabel style="margin-top: 8%; width: 100%;">
-                <input style="width: 100%; border: 1px solid #ccc; border-radius: 0.5rem; padding: 0.7rem; font-size: 1rem;" pInputText id="number" [(ngModel)]="number" type="number" autocomplete="off" />
-                <label for="email" style="color: #555;">Número</label>
-            </p-floatlabel>
-
-            <p-selectbutton style="margin-top: 8%;" [options]="roleOptions" [(ngModel)]="role" class="ng-invalid ng-dirty" />
-
-            <div style="margin-top: 8%;">
-                <p-button label="Registrarse" (onClick)="register()" severity="info" styleClass="p-button-rounded p-button-success p-button-lg" />
+            <div class="w-full">
+                <p-floatlabel>
+                    <input 
+                        pInputText 
+                        id="name" 
+                        [(ngModel)]="names" 
+                        autocomplete="off"
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" 
+                    />
+                    <label for="email" class="text-gray-600">Nombres</label>
+                </p-floatlabel>
             </div>
-            
-            <p-button label="¿Ya tienes cuenta? Inicia sesión" variant="outlined" severity="info" size="small" (onClick)="goToLogin()" styleClass="p-button-text" />
+
+            <div class="w-full">
+                <p-floatlabel>
+                    <input 
+                        pInputText 
+                        id="lastNames" 
+                        [(ngModel)]="lastNames" 
+                        autocomplete="off"
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" 
+                    />
+                    <label for="email" class="text-gray-600">Apellidos</label>
+                </p-floatlabel>
+            </div>
+
+            <div class="w-full">
+                <p-floatlabel>
+                    <input 
+                        pInputText 
+                        id="email" 
+                        [(ngModel)]="email" 
+                        autocomplete="off"
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" 
+                    />
+                    <label for="email" class="text-gray-600">Correo electrónico</label>
+                </p-floatlabel>
+            </div>
+
+            <div class="w-full">
+                <p-floatlabel>
+                    <input 
+                        pInputText 
+                        id="password" 
+                        [(ngModel)]="password" 
+                        autocomplete="off"
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" 
+                    />
+                    <label for="password" class="text-gray-600">Contraseña</label>
+                </p-floatlabel>
+            </div>
+
+            <div class="w-full">
+                <p-floatlabel>
+                    <input 
+                        pInputText 
+                        id="number" 
+                        [(ngModel)]="number" 
+                        type="number" 
+                        autocomplete="off"
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" 
+                    />
+                    <label for="email" class="text-gray-600">Número</label>
+                </p-floatlabel>
+            </div>
+
+            <div class="w-full flex justify-center">
+                <p-selectbutton 
+                    [options]="roleOptions" 
+                    [(ngModel)]="role" 
+                    class="ng-invalid ng-dirty"
+                />
+            </div>
+
+            <div class="flex flex-col space-y-4 items-center">
+                <p-button 
+                    label="Registrarse" 
+                    (onClick)="register()" 
+                    severity="info" 
+                    styleClass="w-full p-button-rounded p-button-success p-button-lg" 
+                />
+                
+                <p-button 
+                    label="¿Ya tienes cuenta? Inicia sesión" 
+                    variant="outlined" 
+                    severity="info" 
+                    size="small" 
+                    (onClick)="goToLogin()" 
+                    styleClass="p-button-text" 
+                />
+            </div>
         </div>
     </p-card>
 </div>

@@ -11,7 +11,6 @@ import { ButtonModule } from 'primeng/button';
   selector: 'app-properties-list',
   imports: [ButtonModule, TagModule, CommonModule, DataViewModule, PaginatorModule],
   templateUrl: './properties-list.component.html',
-  styleUrl: './properties-list.component.css'
 })
 export class PropertiesListComponent {
   @Input() properties: Array<PropertyTileModel> = []

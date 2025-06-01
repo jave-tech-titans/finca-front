@@ -4,66 +4,102 @@ import { CreateRatingModel } from '../../models/CreateRatingModel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { FloatLabelModule } from 'primeng/floatlabel';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IftaLabelModule } from 'primeng/iftalabel';
 import { MenuComponent } from "../shared/menu/menu.component";
-
+import { userRequests } from '../../app.routes';
 
 @Component({
   selector: 'app-rating',
-  imports: [CardModule, FloatLabelModule, ToastModule, ButtonModule, FormsModule, IftaLabelModule ],
+  standalone: true,
+  imports: [CommonModule, FormsModule, ToastModule, MenuComponent],
   templateUrl: './rating.component.html',
-  styleUrls: ['./rating.component.css'],
   providers: [MessageService]
 })
 export class RatingComponent implements OnInit {
-
-  rating: number = 5;    // Valor inicial para la calificación
-  comments: string = '';      // Comentarios iniciales
-  requestId: string = '';     // ID del alquiler
-  loading: boolean = false;  // Indicador de carga para deshabilitar el botón de envío
+  rating: number = 5;
+  comments: string = '';
+  requestId: string = '';
+  loading: boolean = false;
+  error: string | null = null;
+  stars: number[] = [1, 2, 3, 4, 5];
+  hoveredStar: number | null = null;
 
   constructor(
-    private rentalService: RentalService,  // Servicio para interactuar con la API
+    private rentalService: RentalService,
     private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
-    // Obtén el ID de la propiedad desde la URL
-    this.requestId = this.route.snapshot.paramMap.get('id') ?? '';  // Obtener el ID de la URL
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) {
+      this.error = 'No request ID provided';
+      return;
+    }
+    this.requestId = id;
   }
 
-  submitRating() {
-    // Validación antes de enviar (como en tu caso del registro)
+  setRating(value: number): void {
+    this.rating = value;
+  }
+
+  setHoveredStar(star: number | null): void {
+    this.hoveredStar = star;
+  }
+
+  isStarActive(star: number): boolean {
+    return star <= (this.hoveredStar ?? this.rating);
+  }
+
+  async submitRating(): Promise<void> {
+    if (this.loading) return;
+
     if (!this.comments.trim()) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Los comentarios son obligatorios.' });
+      this.error = 'Please provide a comment';
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Comments are required'
+      });
       return;
     }
 
-    // Crear el modelo de rating con la calificación y los comentarios
-    const ratingModel = new CreateRatingModel(Number(this.rating), this.comments);
+    try {
+      this.loading = true;
+      this.error = null;
+      
+      const ratingModel = new CreateRatingModel(this.rating, this.comments.trim());
+      const [data, error] = await this.rentalService.createRating(this.requestId, ratingModel);
 
-    // Llamada al servicio para crear el rating
-    this.loading = true;
-    this.rentalService.createRating(this.requestId, ratingModel)
-      .then(([data, error]) => {
-        if (error) {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
-          this.loading = false;
-        } else {
-          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Rating creado exitosamente.' });
-          this.router.navigate(['/property', this.requestId]);  // Redirigir a la página de la propiedad
-        }
-      })
-      .catch(err => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Hubo un error al crear la calificación.' });
-        this.loading = false;
+      if (error) {
+        this.error = error;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: error
+        });
+        return;
+      }
+
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Rating submitted successfully'
       });
+      
+      await this.router.navigate([userRequests]);
+    } catch (err) {
+      this.error = 'An unexpected error occurred while submitting your rating';
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: this.error
+      });
+    } finally {
+      this.loading = false;
+    }
   }
 }
 

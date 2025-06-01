@@ -11,7 +11,6 @@ import { CommonModule } from '@angular/common';
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   imports: [CommonModule],
-  styleUrls: ['./menu.component.css']
 })
 export class MenuComponent {
 

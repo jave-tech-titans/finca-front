@@ -1,20 +1,50 @@
-<main>
-  <div *ngIf="properties.length > 0; else noProperties" class="property-grid">
-    <div *ngFor="let property of properties" class="property-card" (click)="onClick(property)">
-      <div class="image-container">
-        <img alt="Property" src="{{property.imageUrl}}" />
-      </div>
-      <div class="content-container">
-        <h2 class="property-title">{{ property.name }}</h2>
-        <div class="property-details">
-          <p><strong>Rating:</strong> {{ property.rating }}</p>
-          <p><strong>Departamento:</strong> {{ property.department }}</p>
-          <p><strong>Precio:</strong> ${{ property.price }}</p>
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div 
+        *ngIf="properties.length > 0; else noProperties" 
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
+        <div 
+            *ngFor="let property of properties" 
+            (click)="onClick(property)"
+            class="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer transform transition-transform duration-300 hover:scale-105"
+        >
+            <!-- Image Container -->
+            <div class="relative h-48">
+                <img 
+                    [src]="property.imageUrl" 
+                    [alt]="property.name"
+                    class="w-full h-full object-cover"
+                />
+            </div>
+
+            <!-- Content Container -->
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-4 line-clamp-1">
+                    {{ property.name }}
+                </h2>
+                <div class="space-y-2 text-sm text-gray-600">
+                    <p class="flex items-center">
+                        <span class="font-semibold text-gray-700 mr-2">Rating:</span>
+                        <span>{{ property.rating }}</span>
+                    </p>
+                    <p class="flex items-center">
+                        <span class="font-semibold text-gray-700 mr-2">Departamento:</span>
+                        <span>{{ property.department }}</span>
+                    </p>
+                    <p class="flex items-center">
+                        <span class="font-semibold text-gray-700 mr-2">Precio:</span>
+                        <span class="text-green-600 font-medium">${{ property.price }}</span>
+                    </p>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <ng-template #noProperties>
-    <p style="text-align: center; font-size: 1.2rem; color: #6b7280;">Buscando propiedades...</p>
-  </ng-template>
+
+    <ng-template #noProperties>
+        <div class="text-center py-12">
+            <p class="text-xl text-gray-500">
+                Buscando propiedades...
+            </p>
+        </div>
+    </ng-template>
 </main>

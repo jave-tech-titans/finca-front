@@ -8,12 +8,11 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { MenuComponent } from '../shared/menu/menu.component';
 import { Router } from '@angular/router';
-import { ratingRoute } from '../../app.routes';
+import { ratingRoute, paymentRoute } from '../../app.routes';
 
 @Component({
   selector: 'app-user-requests',
   templateUrl: './user-requests.component.html',
-  styleUrls: ['./user-requests.component.css'],
   imports: [CommonModule, ButtonModule, CardModule, ProgressSpinnerModule, MenuComponent],
   providers: [MessageService],
   standalone: true,
@@ -21,6 +20,7 @@ import { ratingRoute } from '../../app.routes';
 export class UserRequestsComponent implements OnInit {
   rentalRequests: RentalRequestModel[] = [];
   loading: boolean = false;
+  error: string | null = null;
   currentPage: number = 1;
 
   constructor(
@@ -34,45 +34,76 @@ export class UserRequestsComponent implements OnInit {
   }
 
   async loadRentalRequests() {
-    this.loading = true;
-    const [requests, error] = await this.rentalService.getUserRentalRequests(
-      this.currentPage
-    );
-    this.loading = false;
+    try {
+      this.loading = true;
+      this.error = null;
+      const [requests, error] = await this.rentalService.getUserRentalRequests(this.currentPage);
 
-    if (requests) {
-      this.rentalRequests = requests;
-    } else {
+      if (error) {
+        this.error = error;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: error
+        });
+        return;
+      }
+
+      if (requests) {
+        this.rentalRequests = requests;
+      }
+    } catch (err) {
+      this.error = 'An unexpected error occurred while loading requests';
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
-        detail: error || 'No se pudieron cargar las solicitudes',
+        detail: this.error
+      });
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  canRate(status: string): boolean {
+    return status.toUpperCase() === 'COMPLETED';
+  }
+
+  canPay(status: string): boolean {
+    return status.toUpperCase() === 'APPROVED';
+  }
+
+  async pay(requestId: string): Promise<void> {
+    try {
+      await this.router.navigate(['rental-requests', requestId, 'payment']);
+    } catch (error) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Failed to navigate to payment page'
       });
     }
   }
 
-  async cancelRentalRequest(requestId: string) {
-    const [response, error] = await this.rentalService.cancelRentalRequest(
-      requestId
-    );
-
-    if (response) {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Solicitud Cancelada',
-        detail: 'La solicitud ha sido cancelada',
-      });
-      this.loadRentalRequests();
-    } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: error || 'No se pudo cancelar la solicitud',
-      });
-    }
+  async rate(requestId: string): Promise<void> {
+    await this.router.navigate([`/${ratingRoute}`, requestId]);
   }
 
-  async rate(requestId: string):Promise<void>{
-      this.router.navigate([`/${ratingRoute}`, requestId]);
+  formatDate(dateString: string): string {
+    return new Date(dateString).toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  }
+
+  getStatusClass(status: string): string {
+    const statusMap: { [key: string]: string } = {
+      'REQUESTED': 'bg-blue-100 text-blue-800',
+      'APPROVED': 'bg-green-100 text-green-800',
+      'DENIED': 'bg-red-100 text-red-800',
+      'COMPLETED': 'bg-purple-100 text-purple-800',
+      'CANCELLED': 'bg-gray-100 text-gray-800'
+    };
+    return statusMap[status.toUpperCase()] || 'bg-gray-100 text-gray-800';
   }
 }

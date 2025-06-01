@@ -1,69 +1,129 @@
 <app-menu></app-menu>
 <p-toast></p-toast>
 
-<main class="main-content">
-  <div class="property-container">
-    <div class="property-gallery">
-      <p-galleria
-        *ngIf="property?.pictures!.length > 0"
-        [value]="property!.pictures"
-        indicatorsPosition="bottom"
-        [showIndicators]="true"
-        [showThumbnails]="false"
-        [showIndicatorsOnItem]="true"
-        [containerStyle]="{ 'width': '100%', 'border-radius': '1rem', 'overflow': 'hidden' }">
-        <ng-template pTemplate="item" let-item>
-          <img [src]="item" class="property-image" />
-        </ng-template>
-      </p-galleria>
+<main class="min-h-screen bg-slate-200 pt-20 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Error State -->
+        <div *ngIf="error" class="mb-8 bg-red-50 border border-red-200 rounded-xl p-4">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-red-800">Error loading property</h3>
+                    <div class="mt-2 text-sm text-red-700">{{ error }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div *ngIf="loading" class="bg-white rounded-2xl shadow-lg p-12">
+            <div class="flex flex-col items-center justify-center">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4"></div>
+                <p class="text-gray-500">Loading property details...</p>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div *ngIf="!loading && !error && property" class="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <!-- Gallery Section -->
+            <div class="w-full">
+                <p-galleria
+                    *ngIf="property.pictures!.length > 0"
+                    [value]="property.pictures"
+                    indicatorsPosition="bottom"
+                    [showIndicators]="true"
+                    [showThumbnails]="false"
+                    [showIndicatorsOnItem]="true"
+                    [containerStyle]="{ 'width': '100%', 'max-height': '500px', 'overflow': 'hidden' }"
+                >
+                    <ng-template pTemplate="item" let-item>
+                        <img [src]="item" class="w-full h-full object-cover" alt="Property image"/>
+                    </ng-template>
+                </p-galleria>
+
+                <!-- No Images Placeholder -->
+                <div *ngIf="property.pictures!.length === 0" class="bg-gray-100 h-64 flex items-center justify-center">
+                    <div class="text-center text-gray-500">
+                        <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <p class="mt-2">No images available</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Property Information -->
+            <div class="p-8">
+                <!-- Header -->
+                <div class="mb-6">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ property.name }}</h1>
+                    <p class="text-lg text-gray-600">{{ property.department }}</p>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-8">
+                    <p class="text-gray-700 leading-relaxed">{{ property.description }}</p>
+                </div>
+
+                <!-- Attributes Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- Price -->
+                    <div class="flex items-center space-x-3 text-gray-700">
+                        <i class="pi pi-dollar text-blue-600"></i>
+                        <span class="font-medium">{{ property.nightPrice | number:'1.0-0' }} / Noche</span>
+                    </div>
+
+                    <!-- Rating -->
+                    <div class="flex items-center space-x-3 text-gray-700">
+                        <i class="pi pi-star text-yellow-500"></i>
+                        <span class="font-medium">Rating: {{ property.rating | number:'1.1-1' }}</span>
+                    </div>
+
+                    <!-- Rooms -->
+                    <div class="flex items-center space-x-3 text-gray-700">
+                        <i class="pi pi-home text-green-600"></i>
+                        <span class="font-medium">{{ property.numberROoms }} Habitaciones</span>
+                    </div>
+
+                    <!-- Bathrooms -->
+                    <div class="flex items-center space-x-3 text-gray-700">
+                        <i class="pi pi-bath text-blue-600"></i>
+                        <span class="font-medium">{{ property.numberBathrooms }} Baños</span>
+                    </div>
+
+                    <!-- Enter Type -->
+                    <div class="flex items-center space-x-3 text-gray-700">
+                        <i class="pi pi-car text-purple-600"></i>
+                        <span class="font-medium">Tipo de entrada: {{ property.enterType }}</span>
+                    </div>
+
+                    <!-- Pool -->
+                    <div class="flex items-center space-x-3 text-gray-700">
+                        <i class="pi pi-utensils text-cyan-600"></i>
+                        <span class="font-medium">Piscina: {{ formatBoolean(property.hasPool) }}</span>
+                    </div>
+
+                    <!-- Pet Friendly -->
+                    <div class="flex items-center space-x-3 text-gray-700">
+                        <i class="pi pi-paw text-orange-600"></i>
+                        <span class="font-medium">Amigable con animales: {{ formatBoolean(property.isPetFriendly) }}</span>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <div class="flex justify-center">
+                    <button
+                        (click)="requestProperty()"
+                        class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                    >
+                        <i class="pi pi-check mr-2"></i>
+                        Rentar
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="property-info">
-      <h1 class="property-name">{{ property?.name }}</h1>
-      <p class="location">{{ property?.department }}</p>
-      <p class="description">{{ property?.description }}</p>
-
-      <div class="property-attributes">
-        <div class="attribute">
-          <i class="pi pi-dollar"></i>
-          <span>{{ property?.nightPrice }} / Noche</span>
-        </div>
-        <div class="attribute">
-          <i class="pi pi-star"></i>
-          <span>Rating: {{ property?.rating }}</span>
-        </div>
-        <div class="attribute">
-          <i class="pi pi-home"></i>
-          <span>{{ property?.numberROoms }} Habitaciones</span>
-        </div>
-        <div class="attribute">
-          <i class="pi pi-bath"></i>
-          <span>{{ property?.numberBathrooms }} Baños</span>
-        </div>
-        <div class="attribute">
-          <i class="pi pi-car"></i>
-          <span>Tipo de entrada: {{ property?.enterType }}</span>
-        </div>
-        <div class="attribute">
-          <i class="pi pi-utensils"></i>
-          <span>Piscina: {{ property?.hasPool ? 'Sí' : 'No' }}</span>
-        </div>
-        <div class="attribute">
-          <i class="pi pi-paw"></i>
-          <span>Amigable con animales: {{ property?.isPetFriendly ? 'Sí' : 'No' }}</span>
-        </div>
-      </div>
-
-      <div class="action-section">
-        <p-button
-          label="Rentar"
-          icon="pi pi-check"
-          severity="info"
-          (click)="requestProperty()"
-          [loading]="loading"
-          class="rent-button">
-        </p-button>
-      </div>
-    </div>
-  </div>
 </main>

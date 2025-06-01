@@ -30,7 +30,7 @@ export class PaymentService {
 
   async paySchedule(requestId: string ,paymentModel:CreatePaymentModel): Promise<[string | null, string | null]>{
     const response = await this.authService.doAuthHTTPCall<string>(async()=>{
-      return axios.post(`${this.baseUrl}/${requestId}/payments`, paymentModel, {
+      return axios.post(`${this.baseUrl}/requests/${requestId}/payments`, paymentModel, {
         headers: this.authService.getAuthHeader()
       })
     })

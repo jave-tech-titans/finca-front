@@ -18,7 +18,6 @@ import { homepageRoute, registerRoute } from '../../app.routes';
   imports: [CardModule, InputTextModule, FormsModule, FloatLabelModule, ButtonModule, RouterModule, ToastModule],
   providers: [ MessageService],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
 })
 export class LoginComponent {
   email:string = ''

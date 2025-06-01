@@ -16,7 +16,6 @@ import { AccountModel } from '../../models/AccountModel';
   selector: 'app-register',
   imports: [CardModule, InputTextModule, FloatLabelModule, ButtonModule, ToastModule, FormsModule, SelectButtonModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
   providers: [MessageService]
 })
 export class RegisterComponent {

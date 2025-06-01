@@ -31,6 +31,7 @@ export const propertiesRoute = 'properties';
 export const rentPropertyRoute = 'rent/properties';
 export const requestRentRoute = 'rental-requests/properties';
 export const ratingRoute = "rating"; 
+export const paymentRoute = "rental-requests/:requestId/payment";
 
 export const routes: Routes = [
   { path: loginRoute, component: LoginComponent },
@@ -46,6 +47,7 @@ export const routes: Routes = [
   {path: `${managePropertyRoute}/:id`, component: PropertyManagerComponent },
   { path: `${ratingRoute}/:id`, component: RatingComponent },
   { path: myPropertiesRoute, component: MyPropertiesComponent },
+  { path: paymentRoute, component: BankInformationComponent },
   { path: '**', component: LoginComponent },
 
 ]
